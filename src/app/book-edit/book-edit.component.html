@@ -1,0 +1,231 @@
+<div *ngIf="isAuthorized()" class="col-md-12">
+<div class="card card-container">
+    <form (ngSubmit)="f.form.valid && onSubmit()"
+    name="form"
+    novalidate
+    #f="ngForm"
+  >
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input
+      type="text"
+      class="form-control"
+      name="name"
+      [(ngModel)]="book.name"
+      required
+      minlength="3"
+      maxlength="20"
+      #name="ngModel"
+    />
+    <div class="alert-danger" *ngIf="f.submitted && name.invalid">
+      <div *ngIf="name.errors.required">Name is required</div>
+      <div *ngIf="name.errors.minlength">
+        Name must be at least 3 characters
+      </div>
+      <div *ngIf="name.errors.maxlength">
+        Name must be at most 20 characters
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <mat-form-field class="demo-chip-list">
+      <mat-chip-list #chipList>
+        <mat-chip
+          *ngFor="let tag of tags"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="remove(tag)">
+          {{tag}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="New tag..."
+          name="tags"
+          [formControl]="tagCtrl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event)"
+        />
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+          {{ tag }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    </div>
+
+    <div class="form-group" *ngIf="showField(1)">
+        <label for="cost">Cost</label>
+      <input
+        type="number"
+        name="cost"
+        [(ngModel)]="book.cost"
+      />
+    </div>
+
+    <div class="form-group" *ngIf="showField(2)">
+        <label for="countOfPages">Count of pages</label>
+      <input
+        type="number"
+        name="countOfPages"
+        [(ngModel)]="book.countOfPages"
+        #countOfPages="ngModel"
+      />
+    </div>
+
+    <div class="form-group" *ngIf="showField(4)">
+      <label for="weight">Weight</label>
+      <input
+        type="number"
+        name="weight"
+        [(ngModel)]="book.weight"
+        #weight="ngModel"
+      />
+    </div>
+  
+    <div class="form-group" *ngIf="showField(8)">
+      <label for="author">Author</label>
+      <input
+        type="text"
+        name="author"
+        value="8"
+        [(ngModel)]="book.author"
+        #author="ngModel"
+      />
+    </div>
+  
+    <div class="form-group" *ngIf="showField(16)">
+      <label for="genre">Genre</label>
+      <input
+      *ngIf="showField(16)"
+        type="text"
+        name="genre"
+        value="16"
+        [(ngModel)]="book.genre"
+        #genre="ngModel"
+      />
+    </div>
+  
+    <div class="form-group" *ngIf="showField(32)">
+      <label for="publisher">Publisher</label>
+      <input
+        type="text"
+        name="publisher"
+        value="32"
+        [(ngModel)]="book.publisher"
+        #publisher="ngModel"
+      />
+    </div>
+  
+    <div class="form-group" *ngIf="showField(64)">
+      <label for="itSerial">It serial?</label>
+      <input
+        type="checkbox"
+        name="itSerial"
+        value="1"
+        [(ngModel)]="book.itSerial"
+        #itSerial="ngModel"
+      />
+    </div>
+  
+    <div class="form-group" *ngIf="showField(128)">
+      <label for="hasAudio">Has audio?</label>
+      <input
+        type="checkbox"
+        name="hasAudio"
+        value="1"
+        [(ngModel)]="book.hasAudio"
+        #hasAudio="ngModel"
+      />
+    </div>
+  
+    <div class="form-group" *ngIf="showField(256)">
+      <label for="hasFilm">Has film?</label>
+      <input
+        type="checkbox"
+        name="hasFilm"
+        value="1"
+        [(ngModel)]="book.hasFilm"
+        #hasFilm="ngModel"
+      />
+    </div>
+  
+    <div class="form-group" *ngIf="showField(512)">
+      <label for="comment">Comment</label>
+      <textarea
+        type="text"
+        name="comment"
+        value="512"
+        [(ngModel)]="book.comment"
+        #comment="ngModel"
+      >
+      </textarea>
+    </div>
+  
+    <div class="form-group" *ngIf="showField(1024)">
+      <label for="summary">Summary</label>
+      <textarea
+        type="text"
+        name="summary"
+        value="1024"
+        [(ngModel)]="book.summary"
+        #summary="ngModel"
+      >
+      </textarea>
+    </div>
+  
+    <div class="form-group" *ngIf="showField(2048)">
+      <label for="recommendation">Recommendation</label>
+      <textarea
+        type="text"
+        name="recommendation"
+        value="2048"
+        [(ngModel)]="book.recommendation"
+        #recommendation="ngModel"
+      >
+      </textarea>
+    </div>
+  
+    <div class="form-group" *ngIf="showField(4096)">
+      <label for="publishingDateOnEnglish">Publishing date on English</label>
+      <input
+        type="date"
+        name="publishingDateOnEnglish"
+        value="4096"
+        [(ngModel)]="book.publishingDateOnEnglish"
+        #publishingDateOnEnglish="ngModel"
+      />
+    </div>
+  
+    <div class="form-group" *ngIf="showField(8192)">
+      <label for="publishingDateOnRussian">Publishing date on Russian</label>
+      <input
+        type="date"
+        name="publishingDateOnRussian"
+        value="8192"
+        [(ngModel)]="book.publishingDateOnRussian"
+        #publishingDateOnRussian="ngModel"
+      />
+    </div>
+  
+    <div class="form-group" *ngIf="showField(16384)">
+      <label for="publishingDateOnJapan">Publishing date on Japan</label>
+      <input
+        type="date"
+        name="publishingDateOnJapan"
+        value="16384"
+        [(ngModel)]="book.publishingDateOnJapan"
+        #publishingDateOnJapan="ngModel"
+      />
+    </div>
+  
+    <div class="form-group">
+      <button class="btn btn-primary btn-block">Create</button>
+    </div>
+  </form>
+</div>
+</div>

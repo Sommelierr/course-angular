@@ -1,0 +1,229 @@
+<div *ngIf="isAuthorized()" class="col-md-12">
+<div class="card card-container">
+    <form (ngSubmit)="f.form.valid && onSubmit()"
+    name="form"
+    novalidate
+    #f="ngForm"
+  >
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input
+      type="text"
+      class="form-control"
+      name="name"
+      [(ngModel)]="form.name"
+      required
+      minlength="3"
+      maxlength="20"
+      #name="ngModel"
+    />
+    <div class="alert-danger" *ngIf="f.submitted && name.invalid">
+      <div *ngIf="name.errors.required">Name is required</div>
+      <div *ngIf="name.errors.minlength">
+        Name must be at least 3 characters
+      </div>
+      <div *ngIf="name.errors.maxlength">
+        Name must be at most 20 characters
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <mat-form-field class="demo-chip-list">
+      <mat-chip-list #chipList>
+        <mat-chip
+          *ngFor="let tag of tags"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="remove(tag)">
+          {{tag}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="New tag..."
+          name="tags"
+          [formControl]="tagCtrl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event)"
+        />
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+          {{ tag }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    </div>
+
+    <div class="form-group" *ngIf="showField(1)">
+      <label for="cost">Cost</label>
+    <input
+      type="number"
+      name="cost"
+      [(ngModel)]="form.cost"
+    />
+  </div>
+
+    <div class="form-group" *ngIf="showField(2)">
+        <label for="percent">Percent</label>
+      <input
+        type="number"
+        name="percent"
+        [(ngModel)]="form.percent"
+      />
+    </div>
+
+    <div class="form-group" *ngIf="showField(4)">
+        <label for="volume">Volume</label>
+      <input
+        type="number"
+        name="volume"
+        [(ngModel)]="form.volume"
+        #volume="ngModel"
+      />
+    </div>
+
+    <div class="form-group" *ngIf="showField(8)">
+      <label for="manufacturer">Manufacturer</label>
+      <input
+        type="number"
+        name="manufacturer"
+        [(ngModel)]="form.manufacturer"
+        #manufacturer="ngModel"
+      />
+    </div>
+  
+    <div class="form-group" *ngIf="showField(16)">
+      <label for="grade">Grade</label>
+      <input
+        type="text"
+        name="grade"
+        value="8"
+        [(ngModel)]="form.grade"
+        #grade="ngModel"
+      />
+    </div>
+  
+    <div class="form-group" *ngIf="showField(32)">
+      <label for="manufactureCountry">ManufactureCountry</label>
+      <input
+      *ngIf="showField(16)"
+        type="text"
+        name="manufactureCountry"
+        value="16"
+        [(ngModel)]="form.manufactureCountry"
+        #manufactureCountry="ngModel"
+      />
+    </div>
+  
+    <div class="form-group" *ngIf="showField(64)">
+      <label for="hasOneLiter">Has one liter?</label>
+      <input
+        type="checkbox"
+        name="hasOneLiter"
+        value="1"
+        [(ngModel)]="form.hasOneLiter"
+        #hasOneLiter="ngModel"
+      />
+    </div>
+  
+    <div class="form-group" *ngIf="showField(128)">
+      <label for="hasTwoLiters">Has two liters?</label>
+      <input
+        type="checkbox"
+        name="hasTwoLiters"
+        value="1"
+        [(ngModel)]="form.hasTwoLiters"
+        #hasTwoLiters="ngModel"
+      />
+    </div>
+  
+    <div class="form-group" *ngIf="showField(256)">
+      <label for="hasFiveLiters">Has five liters?</label>
+      <input
+        type="checkbox"
+        name="hasFiveLiters"
+        value="1"
+        [(ngModel)]="form.hasFiveLiters"
+        #hasFiveLiters="ngModel"
+      />
+    </div>
+  
+    <div class="form-group" *ngIf="showField(512)">
+      <label for="comment">Comment</label>
+      <textarea
+        type="text"
+        name="comment"
+        value="512"
+        [(ngModel)]="form.comment"
+        #comment="ngModel"
+      >
+      </textarea>
+    </div>
+  
+    <div class="form-group" *ngIf="showField(1024)">
+      <label for="history">History</label>
+      <textarea
+        type="text"
+        name="history"
+        value="1024"
+        [(ngModel)]="form.history"
+        #history="ngModel"
+      >
+      </textarea>
+    </div>
+  
+    <div class="form-group" *ngIf="showField(2048)">
+      <label for="recommendation">Recommendation</label>
+      <textarea
+        type="text"
+        name="recommendation"
+        value="2048"
+        [(ngModel)]="form.recommendation"
+        #recommendation="ngModel"
+      >
+      </textarea>
+    </div>
+  
+    <div class="form-group" *ngIf="showField(4096)">
+      <label for="manufactureDate">Manufacture date</label>
+      <input
+        type="date"
+        name="manufactureDate"
+        value="4096"
+        [(ngModel)]="form.manufactureDate"
+        #manufactureDate="ngModel"
+      />
+    </div>
+  
+    <div class="form-group" *ngIf="showField(8192)">
+      <label for="developmentDate">Development date</label>
+      <input
+        type="date"
+        name="developmentDate"
+        value="8192"
+        [(ngModel)]="form.developmentDate"
+        #developmentDate="ngModel"
+      />
+    </div>
+  
+    <div class="form-group" *ngIf="showField(16384)">
+      <label for="manufactureDateInBelarus">Manufacture date in Belarus</label>
+      <input
+        type="date"
+        name="manufactureDateInBelarus"
+        value="16384"
+        [(ngModel)]="form.manufactureDateInBelarus"
+        #manufactureDateInBelarus="ngModel"
+      />
+    </div>
+  
+    <div class="form-group">
+      <button class="btn btn-primary btn-block">Create</button>
+    </div>
+  </form>
+</div>
+</div>

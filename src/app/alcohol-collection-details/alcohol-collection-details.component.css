@@ -1,0 +1,12 @@
+.c {
+    border: 1px solid #333; /* Рамка */
+    display: inline-block;
+    padding: 5px 15px; /* Поля */
+    text-decoration: none; /* Убираем подчёркивание */
+    color: #000; /* Цвет текста */
+  }
+
+  img {
+    width:100px;
+    height:100px;
+}

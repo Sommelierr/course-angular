@@ -1,0 +1,208 @@
+<div class="container">
+  <header class="jumbotron">
+  </header>
+  <button *ngIf="isAuthorized()" class="c" (click)="deleteBook()">
+    Delete
+  </button>
+  <a *ngIf="isAuthorized()" href="/user/{{userId}}/{{collectionType}}/b/{{collectionId}}/{{bookId}}/edit" class="c">Edit</a>
+
+<h2>Name : {{book.name}}</h2>
+<h3 *ngIf="showField(1)">Cost : {{book.cost}}</h3>
+<h3 *ngIf="showField(2)">Count of pages : {{book.countOfPages}}</h3>
+<h3 *ngIf="showField(4)">Weight : {{book.weight}}</h3>
+<h3 *ngIf="showField(8)">Author : {{book.author}}</h3>
+<h3 *ngIf="showField(16)">Genre : {{book.genre}}</h3>
+<h3 *ngIf="showField(32)">Publisher : {{book.publisher}}</h3>
+<h3 *ngIf="showField(64)">Is serial? : {{book.itSerial}}</h3>
+<h3 *ngIf="showField(128)">Has audio? : {{book.hasAudio}}</h3>
+<h3 *ngIf="showField(256)">Has film? : {{book.hasFilm}}</h3>
+<textarea *ngIf="showField(512)">Comment : {{book.comment}}</textarea>
+<textarea *ngIf="showField(1024)">Summary : {{book.summary}}</textarea>
+<textarea *ngIf="showField(2048)">Recommendation : {{book.recommendation}}</textarea>
+<h3 *ngIf="showField(4096)">Publishing date on english : {{book.publishingDateOnEnglish}}</h3>
+<h3 *ngIf="showField(8192)">Publishing date on russian : {{book.publishingDateOnRussian}}</h3>
+<h3 *ngIf="showField(16384)">Publishing date on japan : {{book.publishingDateOnJapan}}</h3>
+<div *ngIf="isAuthorized()">
+<button *ngIf="isLiked()" (click)="unlike()" mat-fab enabled>
+  <mat-icon>favorite</mat-icon>
+</button>
+<button  *ngIf="!isLiked()" (click)="like()" mat-fa enabled>
+  <mat-icon>favorite</mat-icon>
+</button>
+</div>
+
+<div *ngIf="isAuthorized()">
+<h2>What fields do you want to see?</h2>
+  <form  (ngSubmit)="defineBitMask()"
+  name="form"
+  #f="ngForm"
+>
+<div>
+    <input
+      type="checkbox"
+      name="cost"
+      [(ngModel)]="form.cost"
+    />
+    <label for="cost">Cost</label>
+</div>
+<div>
+    <input
+      type="checkbox"
+      name="countOfPages"
+      [(ngModel)]="form.countOfPages"
+      #countOfPages="ngModel"
+    />
+    <label for="countOfPages">countOfPages</label>
+</div>
+  <div>
+    <input
+      type="checkbox"
+      name="weight"
+      [(ngModel)]="form.weight"
+      #weight="ngModel"
+    />
+    <label for="weight">Weight</label>
+  </div>
+
+  <div>
+    <input
+      type="checkbox"
+      name="author"
+      value="8"
+      [(ngModel)]="form.author"
+      #author="ngModel"
+    />
+    <label for="author">Author</label>
+  </div>
+
+  <div class="form-group">
+
+    <input
+      type="checkbox"
+      name="genre"
+      value="16"
+      [(ngModel)]="form.genre"
+      #genre="ngModel"
+    />
+    <label for="genre">Genre</label>
+  </div>
+
+  <div class="form-group">
+
+    <input
+      type="checkbox"
+      name="publisher"
+      value="32"
+      [(ngModel)]="form.publisher"
+      #publisher="ngModel"
+    />
+    <label for="publisher">Publisher</label>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="checkbox"
+      name="isSerial"
+      value="64"
+      [(ngModel)]="form.isSerial"
+      #isSerial="ngModel"
+    />
+    <label for="isSerial">Is serial?</label>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="checkbox"
+      name="hasAudio"
+      value="128"
+      [(ngModel)]="form.hasAudio"
+      #hasAudio="ngModel"
+    />
+    <label for="hasAudio">Has audio?</label>
+  </div>
+
+  <div class="form-group">
+
+    <input
+      type="checkbox"
+      name="hasFilm"
+      value="256"
+      [(ngModel)]="form.hasFilm"
+      #hasFilm="ngModel"
+    />
+    <label for="hasFilm">Has film?</label>
+  </div>
+
+  <div class="form-group">
+
+    <input
+      type="checkbox"
+      name="comment"
+      value="512"
+      [(ngModel)]="form.comment"
+      #comment="ngModel"
+    />
+    <label for="comment">Comment</label>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="checkbox"
+      name="summary"
+      value="1024"
+      [(ngModel)]="form.summary"
+      #summary="ngModel"
+    />
+    <label for="summary">Summary</label>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="checkbox"
+      name="recommendation"
+      value="2048"
+      [(ngModel)]="form.recommendation"
+      #recommendation="ngModel"
+    />
+    <label for="recommendation">Recommendation</label>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="checkbox"
+      name="publishingDateOnEnglish"
+      value="4096"
+      [(ngModel)]="form.publishingDateOnEnglish"
+      #publishingDateOnEnglish="ngModel"
+    />
+    <label for="publishingDateOnEnglish">Publishing date on English</label>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="checkbox"
+      name="publishingDateOnRussian"
+      value="8192"
+      [(ngModel)]="form.publishingDateOnRussian"
+      #publishingDateOnRussian="ngModel"
+    />
+    <label for="publishingDateOnRussian">Publishing date on Russian</label>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="checkbox"
+      name="publishingDateOnJapan"
+      value="16384"
+      [(ngModel)]="form.publishingDateOnJapan"
+      #publishingDateOnJapan="ngModel"
+    />
+    <label for="publishingDateOnJapan">Publishing date on Japan</label>
+  </div>
+
+  <div class="form-group">
+    <button class="btn btn-primary btn-block">Set fields</button>
+  </div>
+</form>
+</div>
+

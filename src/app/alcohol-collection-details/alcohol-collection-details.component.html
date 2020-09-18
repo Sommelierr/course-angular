@@ -1,0 +1,210 @@
+<div class="container">
+  <header class="jumbotron">
+  </header>
+  <h6>{{collection.name}}</h6>
+  <img src={{collection.image.url}} alt="err">
+  <button *ngIf="isAuthorized()" class="c" (click)="deleteCollection()">
+    Delete
+  </button>
+  <a href="/user/{{userId}}/{{collectionType}}/{{collectionId}}/edit" *ngIf="isAuthorized()" class="c">Edit</a>
+  <a href="/user/{{userId}}/{{collectionType}}/a/{{collectionId}}/createAlcohol" *ngIf="isAuthorized()" class="c">Create Alcohol!</a>
+<div *ngIf="isAuthorized()">
+
+  <textarea>{{collection.description}}</textarea>
+  <form  (ngSubmit)="defineBitMask()"
+  name="form"
+  #f="ngForm"
+>
+<div>
+    <input
+      type="checkbox"
+      name="cost"
+      [(ngModel)]="form.cost"
+    />
+    <label for="cost">Cost</label>
+</div>
+<div>
+    <input
+      type="checkbox"
+      name="percent"
+      [(ngModel)]="form.percent"
+      #cpercent="ngModel"
+    />
+    <label for="percent">Percent</label>
+</div>
+  <div>
+    <input
+      type="checkbox"
+      name="volume"
+      [(ngModel)]="form.volume"
+      #volume="ngModel"
+    />
+    <label for="volume">Volume</label>
+  </div>
+
+  <div>
+    <input
+      type="checkbox"
+      name="manufacturer"
+      value="8"
+      [(ngModel)]="form.manufacturer"
+      #manufacturer="ngModel"
+    />
+    <label for="manufacturer">Manufacturer</label>
+  </div>
+
+  <div class="form-group">
+
+    <input
+      type="checkbox"
+      name="grade"
+      value="16"
+      [(ngModel)]="form.grade"
+      #grade="ngModel"
+    />
+    <label for="grade">Grade</label>
+  </div>
+
+  <div class="form-group">
+
+    <input
+      type="checkbox"
+      name="manufactureCountry"
+      value="32"
+      [(ngModel)]="form.manufactureCountry"
+      #manufactureCountry="ngModel"
+    />
+    <label for="manufactureCountry">ManufactureCountry</label>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="checkbox"
+      name="hasOneLiter"
+      value="64"
+      [(ngModel)]="form.hasOneLiter"
+      #hasOneLiter="ngModel"
+    />
+    <label for="hasOneLiter">Has one liter?</label>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="checkbox"
+      name="hasTwoLiters"
+      value="128"
+      [(ngModel)]="form.hasTwoLiters"
+      #hasTwoLiters="ngModel"
+    />
+    <label for="hasTwoLiters">Has two liters?</label>
+  </div>
+
+  <div class="form-group">
+
+    <input
+      type="checkbox"
+      name="hasFiveLiters"
+      value="256"
+      [(ngModel)]="form.hasFiveLiters"
+      #hasFiveLiters="ngModel"
+    />
+    <label for="hasFiveLiters">Has five liters?</label>
+  </div>
+
+  <div class="form-group">
+
+    <input
+      type="checkbox"
+      name="comment"
+      value="512"
+      [(ngModel)]="form.comment"
+      #comment="ngModel"
+    />
+    <label for="comment">Comment</label>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="checkbox"
+      name="history"
+      value="1024"
+      [(ngModel)]="form.history"
+      #history="ngModel"
+    />
+    <label for="history">History</label>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="checkbox"
+      name="recommendation"
+      value="2048"
+      [(ngModel)]="form.recommendation"
+      #recommendation="ngModel"
+    />
+    <label for="recommendation">Recommendation</label>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="checkbox"
+      name="manufactureDate"
+      value="4096"
+      [(ngModel)]="form.manufactureDate"
+      #manufactureDate="ngModel"
+    />
+    <label for="manufactureDate">Manufacture date</label>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="checkbox"
+      name="developmentDate"
+      value="8192"
+      [(ngModel)]="form.developmentDate"
+      #developmentDate="ngModel"
+    />
+    <label for="developmentDate">Development date</label>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="checkbox"
+      name="manufactureDateInBelarus"
+      value="16384"
+      [(ngModel)]="form.manufactureDateInBelarus"
+      #manufactureDateInBelarus="ngModel"
+    />
+    <label for="manufactureDateInBelarus">Manufacture date in Belarus</label>
+  </div>
+
+  <div class="form-group">
+    <button class="btn btn-primary btn-block">Set fields</button>
+  </div>
+</form>
+</div>
+
+<h5>Your books</h5>
+<div>
+  b
+  <table class="table table-hover">
+    <tr>
+      <td>
+        name
+      </td>
+      <td>
+        recommendation
+      </td>
+    </tr>  
+    <tr *ngFor="let book of collection.books;">
+       <td>
+        {{book.name}}
+      </td>
+      <td>
+        {{book.recommendation}}
+      </td>
+      <td>
+      <a href="/user/{{userId}}/{{collectionType}}/a/{{collectionId}}/{{book.id}}" class="c">Details</a>
+    </td>
+    </tr>
+  </table>

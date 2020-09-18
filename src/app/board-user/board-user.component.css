@@ -1,0 +1,12 @@
+img {
+    width:100px;
+    height:100px;
+}
+
+.c {
+    border: 1px solid #333;
+    display: inline-block;
+    padding: 5px 15px; 
+    text-decoration: none; 
+    color: #000;
+  }
