@@ -8,7 +8,7 @@ describe('CreateCollectionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [  ]
+      declarations: [ CreateCollectionComponent ]
     })
     .compileComponents();
   }));

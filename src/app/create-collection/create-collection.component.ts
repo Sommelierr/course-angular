@@ -5,7 +5,7 @@ import { TokenStorageService } from '../_services/token-storage.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute } from '@angular/router';
- 
+
 @Component({
   selector: 'app-create-collection',
   templateUrl: './create-collection.component.html',
@@ -91,5 +91,6 @@ export class CreateCollectionComponent implements OnInit {
       }
     )
   }
+
 
 }
