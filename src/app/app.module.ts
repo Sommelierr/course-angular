@@ -15,6 +15,7 @@ import { BoardUserComponent } from './board-user/board-user.component';
 import { BookCollectionDetailsComponent } from './book-collection-details/book-collection-details.component';
 import { AlcoholCollectionDetailsComponent } from './alcohol-collection-details/alcohol-collection-details.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
+import { AlcoholDetailsComponent } from './alcohol-details/alcohol-details.component';
 
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { UserComponent } from './user/user.component';
@@ -28,6 +29,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
 import { BookEditComponent } from './book-edit/book-edit.component';
+import { AlcoholEditComponent } from './alcohol-edit/alcohol-edit.component';
 import {MatButtonModule} from '@angular/material/button';
 import { AlcoholCreateComponent } from './alcohol-create/alcohol-create.component';
 @NgModule({
@@ -47,7 +49,9 @@ import { AlcoholCreateComponent } from './alcohol-create/alcohol-create.componen
     BookCreateComponent,
     AlcoholCreateComponent,
     BookDetailsComponent,
-    BookEditComponent
+    AlcoholDetailsComponent,
+    BookEditComponent,
+    AlcoholEditComponent
     
   ],
   imports: [

@@ -1,10 +1,10 @@
 <div class="container">
   <header class="jumbotron">
   </header>
-  <button *ngIf="isAuthorized()" class="c" (click)="deleteBook()">
+  <button *ngIf="isAuthorized()" class="c" (click)="deleteAlcohol()">
     Delete
   </button>
-  <a *ngIf="isAuthorized()" href="/user/{{userId}}/{{collectionType}}/{{collectionId}}/{{alcoholId}}/edit" class="c">Edit</a>
+  <a *ngIf="isAuthorized()" href="/user/{{userId}}/{{collectionType}}/a/{{collectionId}}/{{alcoholId}}/edit" class="c">Edit</a>
 
 <h2>Name : {{alcohol.name}}</h2>
 <h3 *ngIf="showField(1)">Cost : {{alcohol.cost}}</h3>
@@ -22,7 +22,7 @@
 <h3 *ngIf="showField(4096)">Manufacture date : {{alcohol.manufactureDate}}</h3>
 <h3 *ngIf="showField(8192)">Development date : {{alcohol.developmentDate}}</h3>
 <h3 *ngIf="showField(16384)">Manufacture date in Belarus : {{alcohol.manufactureDateInBelarus}}</h3>
-<div *ngIf="isAuthorized()">
+<div *ngIf="isLikeable()">
 <button *ngIf="isLiked()" (click)="unlike()" mat-fab enabled>
   <mat-icon>favorite</mat-icon>
 </button>

@@ -18,6 +18,7 @@ export class BoardUserComponent implements OnInit {
   bc : string = 'bc';
   mc : string = 'mc';
   ac : string = 'ac';
+  blocked : any;
 
   constructor(private userService: UserService, private token: TokenStorageService, private router : Router, private route : ActivatedRoute) { }
 
@@ -26,7 +27,7 @@ export class BoardUserComponent implements OnInit {
     this.userService.getUserById(this.userId).subscribe(
       data => {
         this.collections = data;
-        console.log(this.collections);
+        this.blocked = this.collections.blocked;
       },
       err => {
         this.collections = JSON.parse(err.error).message;
@@ -37,11 +38,14 @@ export class BoardUserComponent implements OnInit {
   isAuthorized() : boolean{
     this.currentUser = this.token.getUser();
     if(this.currentUser == null) return false;
-    if(this.currentUser.id == this.userId || this.isAdmin()) return true;
+    if(this.isAdmin()) return true;
+    if(this.blocked) return false;
+    if(this.currentUser.id == this.userId) return true;
     else return false;
   }
 
-  isAdmin() : void {
+  isAdmin() : boolean {
     return this.currentUser.roles.includes("ROLE_ADMIN");
   }
+  
 }

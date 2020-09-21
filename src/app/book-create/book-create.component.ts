@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ItemService } from '../_services/item.service';
+import { UserService } from '../_services/user.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -11,7 +12,6 @@ import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/a
 import {MatChipInputEvent} from '@angular/material/chips';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CollectionService } from '../_services/collection.service';
  
 @Component({
@@ -31,6 +31,7 @@ export class BookCreateComponent implements OnInit {
   userId : any;
   bitMask : any;
   collection : any;
+  blocked : any;
 
   visible = true;
   selectable = true;
@@ -46,6 +47,7 @@ export class BookCreateComponent implements OnInit {
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   constructor(private itemService: ItemService,
+     private userService: UserService,
      private collectionService: CollectionService,
      private token: TokenStorageService,
      private router: Router,
@@ -71,6 +73,7 @@ export class BookCreateComponent implements OnInit {
       err => {
         this.collection = JSON.parse(err.error).message;
       })
+      this.setUserStatus();
   }
 
   filterTags() : void{
@@ -98,15 +101,21 @@ export class BookCreateComponent implements OnInit {
   }
 
   onSubmit() : void{
-    this.form.hasAudio = this.defineValue(this.form.hasAudio);
-    this.form.itSerial = this.defineValue(this.form.itSerial);
-    this.form.hasFilm = this.defineValue(this.form.hasFilm);
-
+    this.defineFormValues();
     this.itemService.createBook(this.form, this.tags,this.collectionId).subscribe();
     this.router.navigate(['/user/'+ `${this.userId}` + '/' + `${this.collectionType}`  +  '/b/' + `${this.collectionId}`]);
   }
 
-  defineValue(value : any) : any{
+  defineFormValues(){
+    this.form.hasAudio = this.defineCheckboxValue(this.form.hasAudio);
+    this.form.itSerial = this.defineCheckboxValue(this.form.itSerial);
+    this.form.hasFilm = this.defineCheckboxValue(this.form.hasFilm);
+    if(this.form.cost == undefined) this.form.cost = 0;
+    if(this.form.countOfPages == undefined) this.form.countOfPages = 0;
+    if(this.form.weight == undefined) this.form.weight = 0;
+  }
+
+  defineCheckboxValue(value : any) : any{
     if(value == undefined || value == false || value == NaN) value = false;
     else value = true;
     return value;
@@ -152,12 +161,22 @@ export class BookCreateComponent implements OnInit {
   isAuthorized() : boolean{
     this.currentUser = this.token.getUser();
     if(this.currentUser == null) return false;
+    if(this.blocked) return false;
     if(this.currentUser.id == this.userId || this.isAdmin()) return true;
     else return false;
   }
 
-  isAdmin() : void {
+  isAdmin() : boolean {
     return this.currentUser.roles.includes("ROLE_ADMIN");
+  }
+
+  setUserStatus(){
+    if(this.currentUser == null) return;
+    this.userService.getUserStatus(this.currentUser.id).subscribe(
+      data => {
+        this.blocked = data;
+      }
+    )
   }
 
 }

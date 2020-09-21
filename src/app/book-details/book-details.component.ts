@@ -29,6 +29,8 @@ export class BookDetailsComponent implements OnInit {
   collectionType : any;
   likeStatus : boolean;
   likeJson : any;
+  bitMaskJson : any;
+  blocked : boolean;
 
   constructor(
     private userService : UserService, 
@@ -63,10 +65,11 @@ export class BookDetailsComponent implements OnInit {
     );
     this.collectionService.getBookCollectionBitMask(this.collectionId).subscribe(
         data => {
-          this.collectionBitMask = data;
+          this.bitMaskJson = data;
+          this.collectionBitMask = this.bitMaskJson.bitMask;
         }
     )
-
+    this.setUserStatus();
   }
 
   deleteBook(): void{
@@ -137,8 +140,14 @@ export class BookDetailsComponent implements OnInit {
   }
 
   isLiked() : boolean{
-    console.log(this.likeStatus);
     return this.likeStatus;
+  }
+
+    isLikeable() : boolean{
+  this.currentUser = this.token.getUser();
+    if(this.currentUser == null) return false;
+    if(this.blocked) return false;
+    else return true;
   }
 
   reloadPage(): void {
@@ -148,11 +157,21 @@ export class BookDetailsComponent implements OnInit {
   isAuthorized() : boolean{
     this.currentUser = this.token.getUser();
     if(this.currentUser == null) return false;
+    if(this.blocked) return false;
     if(this.currentUser.id == this.userId || this.isAdmin()) return true;
     else return false;
   }
 
-  isAdmin() : void {
+  isAdmin() : boolean {
     return this.currentUser.roles.includes("ROLE_ADMIN");
+  }
+
+  setUserStatus(){
+    if(this.currentUser == null) return;
+    this.userService.getUserStatus(this.currentUser.id).subscribe(
+      data => {
+        this.blocked = data;
+      }
+    )
   }
 }

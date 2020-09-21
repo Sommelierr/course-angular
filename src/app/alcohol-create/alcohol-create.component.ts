@@ -11,8 +11,8 @@ import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/a
 import {MatChipInputEvent} from '@angular/material/chips';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CollectionService } from '../_services/collection.service';
+import { UserService } from '../_services/user.service';
  
 @Component({
   selector: 'app-alcohol-create',
@@ -31,6 +31,7 @@ export class AlcoholCreateComponent implements OnInit {
   userId : any;
   bitMask : any;
   collection : any;
+  blocked : boolean;
 
   visible = true;
   selectable = true;
@@ -50,7 +51,8 @@ export class AlcoholCreateComponent implements OnInit {
      private token: TokenStorageService,
      private router: Router,
      private spinner: NgxSpinnerService,
-     private route: ActivatedRoute) { }
+     private route: ActivatedRoute,
+     private userService : UserService) { }
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.params["userId"];
@@ -71,6 +73,7 @@ export class AlcoholCreateComponent implements OnInit {
       err => {
         this.collection = JSON.parse(err.error).message;
       })
+      this.setUserStatus();
   }
 
   filterTags() : void{
@@ -152,12 +155,22 @@ export class AlcoholCreateComponent implements OnInit {
   isAuthorized() : boolean{
     this.currentUser = this.token.getUser();
     if(this.currentUser == null) return false;
+    if(this.blocked) return false;
     if(this.currentUser.id == this.userId || this.isAdmin()) return true;
     else return false;
   }
 
   isAdmin() : void {
     return this.currentUser.roles.includes("ROLE_ADMIN");
+  }
+
+  setUserStatus(){
+    if(this.currentUser == null) return;
+    this.userService.getUserStatus(this.currentUser.id).subscribe(
+      data => {
+        this.blocked = data;
+      }
+    )
   }
 
 }

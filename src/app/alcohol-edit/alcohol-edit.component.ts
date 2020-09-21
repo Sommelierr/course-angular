@@ -15,11 +15,11 @@ import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
  
 @Component({
-  selector: 'app-book-edit',
-  templateUrl: './book-edit.component.html',
-  styleUrls: ['./book-edit.component.css']
+  selector: 'app-alcohol-edit',
+  templateUrl: './alcohol-edit.component.html',
+  styleUrls: ['./alcohol-edit.component.css']
 })
-export class BookEditComponent implements OnInit {
+export class AlcoholEditComponent implements OnInit {
 
   form: any = {};
   isSuccessful = false;
@@ -31,8 +31,8 @@ export class BookEditComponent implements OnInit {
   userId : any;
   bitMask : any;
   collection : any;
-  book : any;
-  bookId : any;
+  alcohol : any;
+  alcoholId : any;
   collectionBitMask : any;
   blocked : boolean;
 
@@ -51,26 +51,25 @@ export class BookEditComponent implements OnInit {
 
   constructor(private itemService: ItemService,
     private collectionService: CollectionService,
-    private userService: UserService,
      private token: TokenStorageService,
      private router: Router,
      private spinner: NgxSpinnerService,
-     private route: ActivatedRoute) { }
+     private route: ActivatedRoute,
+     private userService: UserService) { }
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.params["userId"];
     this.collectionId = this.route.snapshot.params["collectionId"];
     this.collectionType = this.route.snapshot.params["collectionType"];
-    this.bookId = this.route.snapshot.params["bookId"];
-    this.itemService.getBook(this.bookId).subscribe(
+    this.alcoholId = this.route.snapshot.params["alcoholId"];
+    this.itemService.getAlcohol(this.alcoholId).subscribe(
       data => {
-        this.book = data;
+        this.alcohol = data;
       })
 
-    this.itemService.getItemTags(this.collectionType, this.bookId).subscribe(
+    this.itemService.getItemTags(this.collectionType, this.alcoholId).subscribe(
       data =>{this.tags = data;}
   
- 
     )
 
     this.itemService.getAllTags().subscribe(
@@ -80,7 +79,7 @@ export class BookEditComponent implements OnInit {
       })
 
 
-    this.collectionService.getBookCollectionBitMask(this.collectionId).subscribe(
+    this.collectionService.getAlcoholCollectionBitMask(this.collectionId).subscribe(
       data => {
         this.collection = data;
         this.collectionBitMask = this.collection.bitMask;
@@ -89,7 +88,7 @@ export class BookEditComponent implements OnInit {
         this.collection = JSON.parse(err.error).message;
       })
 
-      this.setUserStatus();
+    this.setUserStatus();
   }
 
   filterTags() : void{
@@ -99,7 +98,7 @@ export class BookEditComponent implements OnInit {
   }
 
   showField(number : any): boolean{
-    this.bitMask = this.collectionBitMask | this.book.bitMask;
+    this.bitMask = this.collectionBitMask | this.alcohol.bitMask;
     if(number == 1)  return (this.bitMask & 1) == 1;
     if(number == 2)  return (this.bitMask & 2) == 2;
     if(number == 4)  return (this.bitMask & 4) == 4;
@@ -118,9 +117,9 @@ export class BookEditComponent implements OnInit {
   }
 
   onSubmit() : void{
-    this.book.tags = this.tags;
-    console.log(this.book.hasFilm);
-    this.itemService.updateBook(this.book, this.bookId).subscribe();
+    this.alcohol.tags = this.tags;
+    console.log(this.alcohol.hasFilm);
+    this.itemService.updateBook(this.alcohol, this.alcoholId).subscribe();
     this.router.navigate(['/user/'+ `${this.userId}` + '/' + `${this.collectionType}`  +  '/b/' + `${this.collectionId}`]);
   }
 
@@ -175,7 +174,7 @@ export class BookEditComponent implements OnInit {
     else return false;
   }
 
-  isAdmin() : boolean {
+  isAdmin() : void {
     return this.currentUser.roles.includes("ROLE_ADMIN");
   }
 

@@ -15,7 +15,9 @@ import { EditCollectionComponent } from './collection-edit/collection-edit.compo
 import { BookCreateComponent } from './book-create/book-create.component';
 import { AlcoholCreateComponent } from './alcohol-create/alcohol-create.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
+import { AlcoholDetailsComponent } from './alcohol-details/alcohol-details.component';
 import { BookEditComponent } from './book-edit/book-edit.component';
+import { AlcoholEditComponent } from './alcohol-edit/alcohol-edit.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -33,7 +35,9 @@ const routes: Routes = [
   { path: 'user/:userId/:collectionType/b/:collectionId/createBook', component: BookCreateComponent},
   { path: 'user/:userId/:collectionType/a/:collectionId/createAlcohol', component: AlcoholCreateComponent},
   { path: 'user/:userId/:collectionType/b/:collectionId/:bookId', component: BookDetailsComponent},
-  { path: 'user/:userId/:collectionType/b/:collectionId/:bookId/edit', component: BookEditComponent}
+  { path: 'user/:userId/:collectionType/a/:collectionId/:alcoholId', component: AlcoholDetailsComponent},
+  { path: 'user/:userId/:collectionType/b/:collectionId/:bookId/edit', component: BookEditComponent},
+  { path: 'user/:userId/:collectionType/a/:collectionId/:alcoholId/edit', component: AlcoholEditComponent}
 ];
 
 @NgModule({

@@ -21,6 +21,7 @@ export class AlcoholCollectionDetailsComponent implements OnInit {
   collectionType : any;
   form : any = {};
   result : any = 0;
+  blocked : any;
 
   constructor(
     private userService : UserService, 
@@ -36,8 +37,10 @@ export class AlcoholCollectionDetailsComponent implements OnInit {
     this.collectionType = this.route.snapshot.params["collectionType"];
     this.collectionService.getCollection(this.userId, this.collectionId, this.collectionType).subscribe(
       data => {
+        console.log(data);
         this.collection = data;
         this.result = this.collection.bitMask;
+        this.blocked = this.collection.blocked;
       },
       err => {
         this.collection = JSON.parse(err.error).message;
@@ -80,11 +83,13 @@ export class AlcoholCollectionDetailsComponent implements OnInit {
   isAuthorized() : boolean{
     this.currentUser = this.token.getUser();
     if(this.currentUser == null) return false;
-    if(this.currentUser.id == this.userId || this.isAdmin()) return true;
+    if(this.isAdmin()) return true;
+    if(this.blocked) return false;
+    if(this.currentUser.id == this.userId) return true;
     else return false;
   }
 
-  isAdmin() : void {
+  isAdmin() : boolean {
     return this.currentUser.roles.includes("ROLE_ADMIN");
   }
 }

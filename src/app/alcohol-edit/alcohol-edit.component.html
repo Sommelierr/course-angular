@@ -68,89 +68,89 @@
     </div>
 
     <div class="form-group" *ngIf="showField(2)">
-        <label for="countOfPages">Count of pages</label>
+        <label for="percent">Percent</label>
       <input
         type="number"
-        name="countOfPages"
-        [(ngModel)]="book.countOfPages"
-        #countOfPages="ngModel"
+        name="percent"
+        [(ngModel)]="alcohol.percent"
+        #percent="ngModel"
       />
     </div>
 
     <div class="form-group" *ngIf="showField(4)">
-      <label for="weight">Weight</label>
+      <label for="volume">Volume</label>
       <input
         type="number"
-        name="weight"
-        [(ngModel)]="book.weight"
-        #weight="ngModel"
+        name="volume"
+        [(ngModel)]="alcohol.volume"
+        #volume="ngModel"
       />
     </div>
   
     <div class="form-group" *ngIf="showField(8)">
-      <label for="author">Author</label>
+      <label for="manufacturer">Manufacturer</label>
       <input
         type="text"
-        name="author"
+        name="manufacturer"
         value="8"
-        [(ngModel)]="book.author"
-        #author="ngModel"
+        [(ngModel)]="alcohol.manufacturer"
+        #manufacturer="ngModel"
       />
     </div>
   
     <div class="form-group" *ngIf="showField(16)">
-      <label for="genre">Genre</label>
+      <label for="grade">Grade</label>
       <input
       *ngIf="showField(16)"
         type="text"
-        name="genre"
+        name="grade"
         value="16"
-        [(ngModel)]="book.genre"
-        #genre="ngModel"
+        [(ngModel)]="alcohol.grade"
+        #grade="ngModel"
       />
     </div>
   
     <div class="form-group" *ngIf="showField(32)">
-      <label for="publisher">Publisher</label>
+      <label for="manufactureCountry">Manufacture country</label>
       <input
         type="text"
-        name="publisher"
+        name="manufactureCountry"
         value="32"
-        [(ngModel)]="book.publisher"
-        #publisher="ngModel"
+        [(ngModel)]="alcohol.manufactureCountry"
+        #manufactureCountry="ngModel"
       />
     </div>
   
     <div class="form-group" *ngIf="showField(64)">
-      <label for="itSerial">It serial?</label>
+      <label for="hasOneLiter">Has one liter?</label>
       <input
         type="checkbox"
-        name="itSerial"
+        name="hasOneLiter"
         value="1"
-        [(ngModel)]="book.itSerial"
-        #itSerial="ngModel"
+        [(ngModel)]="alcohol.hasOneLiter"
+        #hasOneLiter="ngModel"
       />
     </div>
   
     <div class="form-group" *ngIf="showField(128)">
-      <label for="hasAudio">Has audio?</label>
+      <label for="hasTwoLiters">Has two liters?</label>
       <input
         type="checkbox"
-        name="hasAudio"
+        name="hasTwoLiters"
         value="1"
-        [(ngModel)]="book.hasAudio"
-        #hasAudio="ngModel"
+        [(ngModel)]="alcohol.hasTwoLiters"
+        #hasTwoLiters="ngModel"
       />
     </div>
   
     <div class="form-group" *ngIf="showField(256)">
-      <label for="hasFilm">Has film?</label>
+      <label for="hasFiveLiters">Has five liters?</label>
       <input
         type="checkbox"
-        name="hasFilm"
+        name="hasFiveLiters"
         value="1"
-        [(ngModel)]="book.hasFilm"
-        #hasFilm="ngModel"
+        [(ngModel)]="alcohol.hasFiveLiters"
+        #hasFiveLiters="ngModel"
       />
     </div>
   
@@ -160,20 +160,20 @@
         type="text"
         name="comment"
         value="512"
-        [(ngModel)]="book.comment"
+        [(ngModel)]="alcohol.comment"
         #comment="ngModel"
       >
       </textarea>
     </div>
   
     <div class="form-group" *ngIf="showField(1024)">
-      <label for="summary">Summary</label>
+      <label for="history">History</label>
       <textarea
         type="text"
-        name="summary"
+        name="history"
         value="1024"
-        [(ngModel)]="book.summary"
-        #summary="ngModel"
+        [(ngModel)]="alcohol.history"
+        #history="ngModel"
       >
       </textarea>
     </div>
@@ -184,42 +184,42 @@
         type="text"
         name="recommendation"
         value="2048"
-        [(ngModel)]="book.recommendation"
+        [(ngModel)]="alcohol.recommendation"
         #recommendation="ngModel"
       >
       </textarea>
     </div>
   
     <div class="form-group" *ngIf="showField(4096)">
-      <label for="publishingDateOnEnglish">Publishing date on English</label>
+      <label for="manufactureDate">Manufacture date</label>
       <input
         type="date"
-        name="publishingDateOnEnglish"
+        name="manufactureDate"
         value="4096"
-        [(ngModel)]="book.publishingDateOnEnglish"
-        #publishingDateOnEnglish="ngModel"
+        [(ngModel)]="alcohol.manufactureDate"
+        #manufactureDate="ngModel"
       />
     </div>
   
     <div class="form-group" *ngIf="showField(8192)">
-      <label for="publishingDateOnRussian">Publishing date on Russian</label>
+      <label for="developmentDate">Development date</label>
       <input
         type="date"
-        name="publishingDateOnRussian"
+        name="developmentDate"
         value="8192"
-        [(ngModel)]="book.publishingDateOnRussian"
-        #publishingDateOnRussian="ngModel"
+        [(ngModel)]="alcohol.developmentDate"
+        #developmentDate="ngModel"
       />
     </div>
   
     <div class="form-group" *ngIf="showField(16384)">
-      <label for="publishingDateOnJapan">Publishing date on Japan</label>
+      <label for="manufactureDateInBelarus">Manufacture date in Belarus</label>
       <input
         type="date"
-        name="publishingDateOnJapan"
+        name="manufactureDateInBelarus"
         value="16384"
-        [(ngModel)]="book.publishingDateOnJapan"
-        #publishingDateOnJapan="ngModel"
+        [(ngModel)]="alcohol.manufactureDateInBelarus"
+        #manufactureDateInBelarus="ngModel"
       />
     </div>
   

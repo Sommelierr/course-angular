@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CollectionService } from '../_services/collection.service';
+import { UserService } from '../_services/user.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -25,7 +26,9 @@ export class EditCollectionComponent implements OnInit {
   collectionType : any;
   collectionId : any;
   collection : any;
+  blocked : boolean;
   constructor(private collectionService: CollectionService,
+     private userService: UserService,
      private token: TokenStorageService,
      private router: Router,
      private spinner: NgxSpinnerService,
@@ -43,6 +46,7 @@ export class EditCollectionComponent implements OnInit {
         this.collection = JSON.parse(err.error).message;
       }
     );
+    this.setUserStatus();
   }
 
   onFileChange(event) {
@@ -80,12 +84,22 @@ export class EditCollectionComponent implements OnInit {
   isAuthorized() : boolean{
     this.currentUser = this.token.getUser();
     if(this.currentUser == null) return false;
+    if(this.blocked) return false;
     if(this.currentUser.id == this.userId || this.isAdmin()) return true;
     else return false;
   }
 
-  isAdmin() : void {
+  isAdmin() : boolean {
     return this.currentUser.roles.includes("ROLE_ADMIN");
+  }
+
+  setUserStatus(){
+    if(this.currentUser == null) return;
+    this.userService.getUserStatus(this.currentUser.id).subscribe(
+      data => {
+        this.blocked = data;
+      }
+    )
   }
 
 }

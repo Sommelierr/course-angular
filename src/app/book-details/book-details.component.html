@@ -22,7 +22,7 @@
 <h3 *ngIf="showField(4096)">Publishing date on english : {{book.publishingDateOnEnglish}}</h3>
 <h3 *ngIf="showField(8192)">Publishing date on russian : {{book.publishingDateOnRussian}}</h3>
 <h3 *ngIf="showField(16384)">Publishing date on japan : {{book.publishingDateOnJapan}}</h3>
-<div *ngIf="isAuthorized()">
+<div *ngIf="isLikeable()">
 <button *ngIf="isLiked()" (click)="unlike()" mat-fab enabled>
   <mat-icon>favorite</mat-icon>
 </button>

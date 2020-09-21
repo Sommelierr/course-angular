@@ -184,9 +184,8 @@
 </form>
 </div>
 
-<h5>Your books</h5>
+<h5>Alcohols</h5>
 <div>
-  b
   <table class="table table-hover">
     <tr>
       <td>
@@ -196,15 +195,15 @@
         recommendation
       </td>
     </tr>  
-    <tr *ngFor="let book of collection.books;">
+    <tr *ngFor="let alcohol of collection.alcohols;">
        <td>
-        {{book.name}}
+        {{alcohol.name}}
       </td>
       <td>
-        {{book.recommendation}}
+        {{alcohol.recommendation}}
       </td>
       <td>
-      <a href="/user/{{userId}}/{{collectionType}}/a/{{collectionId}}/{{book.id}}" class="c">Details</a>
+      <a href="/user/{{userId}}/{{collectionType}}/a/{{collectionId}}/{{alcohol.id}}" class="c">Details</a>
     </td>
     </tr>
   </table>

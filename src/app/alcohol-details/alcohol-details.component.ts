@@ -20,7 +20,7 @@ export class AlcoholDetailsComponent implements OnInit {
   userId : any;
   alcoholId : any;
   collectionId : any;
-  book : any;
+  alcohol : any;
   form : any = {};
   result : any = 0;
   collectionBitMask : any;
@@ -29,6 +29,8 @@ export class AlcoholDetailsComponent implements OnInit {
   collectionType : any;
   likeStatus : boolean;
   likeJson : any;
+  bitMaskJson : any;
+  blocked : boolean;
 
   constructor(
     private userService : UserService, 
@@ -54,23 +56,24 @@ export class AlcoholDetailsComponent implements OnInit {
     )
   }
 
-    this.itemService.getBook(this.alcoholId).subscribe(
+    this.itemService.getAlcohol(this.alcoholId).subscribe(
       data => {
-        this.book = data;
-        this.alcoholBitMask = this.book.bitMask;
+        this.alcohol = data;
+        this.alcoholBitMask = this.alcohol.bitMask;
       },
-      err => { this.book = JSON.parse(err.error).message;}
+      err => { this.alcohol = JSON.parse(err.error).message;}
     );
-    this.collectionService.getBookCollectionBitMask(this.collectionId).subscribe(
+    this.collectionService.getAlcoholCollectionBitMask(this.collectionId).subscribe(
         data => {
-          this.collectionBitMask = data;
+          this.bitMaskJson = data;
+          this.collectionBitMask = this.bitMaskJson.bitMask;
         }
     )
-
+    this.setUserStatus();
   }
 
-  deleteBook(): void{
-    this.itemService.deleteBook(this.alcoholId)
+  deleteAlcohol(): void{
+    this.itemService.deleteAlcohol(this.alcoholId)
     .subscribe(
       response => {
         this.router.navigate(['/user/' + `${this.userId}`]);
@@ -80,25 +83,25 @@ export class AlcoholDetailsComponent implements OnInit {
   }
 
   defineBitMask(): any{
-    this.result = this.defineValue(this.form.cost) + this.defineValue(this.form.countOfPages)*2 +
-      this.defineValue(this.form.weight)*2**2 + 
-      this.defineValue(this.form.author)*2**3 + this.defineValue(this.form.genre)*2**4 + 
-      this.defineValue(this.form.publisher)*2**5 + this.defineValue(this.form.isSerial)*2**6 + 
-      this.defineValue(this.form.hasAudio)*2**7 + this.defineValue(this.form.hasFilm)*2**8 +
-      this.defineValue(this.form.comment)*2**9 + this.defineValue(this.form.summary)*2**10 + 
-      this.defineValue(this.form.recommendation)*2**11 + this.defineValue(this.form.publishingDateOnEnglish)*2**12 + 
-      this.defineValue(this.form.publishingDateOnRussian)*2**13 + this.defineValue(this.form.publishingDateOnJapan)*2**14;
+    this.result = this.defineValue(this.form.cost) + this.defineValue(this.form.percent)*2 +
+      this.defineValue(this.form.volume)*2**2 + 
+      this.defineValue(this.form.manufacturer)*2**3 + this.defineValue(this.form.grade)*2**4 + 
+      this.defineValue(this.form.manufactureCountry)*2**5 + this.defineValue(this.form.hasOneLiter)*2**6 + 
+      this.defineValue(this.form.hasTwoLiters)*2**7 + this.defineValue(this.form.hasFiveLiters)*2**8 +
+      this.defineValue(this.form.comment)*2**9 + this.defineValue(this.form.history)*2**10 + 
+      this.defineValue(this.form.recommendation)*2**11 + this.defineValue(this.form.manufactureDate)*2**12 + 
+      this.defineValue(this.form.developmentDate)*2**13 + this.defineValue(this.form.manufactureDateInBelarus)*2**14;
       this.result = this.result | this.collectionBitMask;
       this.setBitMask();
   }
 
   setBitMask(): void{
-    this.itemService.setBookBitMask(this.alcoholId, this.result).subscribe();
+    this.itemService.setAlcoholBitMask(this.alcoholId, this.result).subscribe();
     this.refresh();
   }
 
   refresh(){
-    this.router.navigate(['/user/'+ `${this.userId}` + '/' + `${this.collectionType}` + '/' + `${this.collectionId}`]);
+    this.router.navigate(['/user/'+ `${this.userId}` + '/' + `${this.collectionType}` + '/a/' + `${this.collectionId}`]);
   }
 
   defineValue(value : any) : any{
@@ -127,7 +130,7 @@ export class AlcoholDetailsComponent implements OnInit {
   }
 
   like(){
-    this.itemService.like(this.currentUser.id,this.alcoholId, this.collectionType ).subscribe();
+    this.itemService.like(this.currentUser.id,this.alcoholId, this.collectionType).subscribe();
     this.reloadPage();
   }
 
@@ -148,11 +151,28 @@ export class AlcoholDetailsComponent implements OnInit {
   isAuthorized() : boolean{
     this.currentUser = this.token.getUser();
     if(this.currentUser == null) return false;
+    if(this.blocked) return false;
     if(this.currentUser.id == this.userId || this.isAdmin()) return true;
     else return false;
   }
 
+  isLikeable() : boolean{
+  this.currentUser = this.token.getUser();
+    if(this.currentUser == null) return false;
+    if(this.blocked) return false;
+    else return true;
+  }
+
   isAdmin() : void {
     return this.currentUser.roles.includes("ROLE_ADMIN");
+  }
+
+  setUserStatus(){
+    if(this.currentUser == null) return;
+    this.userService.getUserStatus(this.currentUser.id).subscribe(
+      data => {
+        this.blocked = data;
+      }
+    )
   }
 }
