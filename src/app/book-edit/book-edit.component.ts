@@ -58,28 +58,36 @@ export class BookEditComponent implements OnInit {
      private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.userId = this.route.snapshot.params["userId"];
-    this.collectionId = this.route.snapshot.params["collectionId"];
-    this.collectionType = this.route.snapshot.params["collectionType"];
-    this.bookId = this.route.snapshot.params["bookId"];
+    this.setPathVariables();
+    this.getBook();
+    this.getBookTags();
+    this.getAllTags();
+    this.getBookCollectionBitMask();
+    this.getUserStatus();
+  }
+
+  getBook() : void{
     this.itemService.getBook(this.bookId).subscribe(
       data => {
         this.book = data;
       })
+  }
 
+  getBookTags() : void{
     this.itemService.getItemTags(this.collectionType, this.bookId).subscribe(
       data =>{this.tags = data;}
-  
- 
     )
+  }
 
+  getAllTags() : void {
     this.itemService.getAllTags().subscribe(
       data =>{
         this.allTags = data;
     this.filterTags();
       })
+  }
 
-
+  getBookCollectionBitMask() : void{
     this.collectionService.getBookCollectionBitMask(this.collectionId).subscribe(
       data => {
         this.collection = data;
@@ -88,8 +96,13 @@ export class BookEditComponent implements OnInit {
       err => {
         this.collection = JSON.parse(err.error).message;
       })
+  }
 
-      this.setUserStatus();
+  setPathVariables() : void{
+    this.bookId = this.route.snapshot.params["bookId"];
+    this.collectionType = this.route.snapshot.params["collectionType"];
+    this.userId = this.route.snapshot.params["userId"];
+    this.collectionId = this.route.snapshot.params["collectionId"];
   }
 
   filterTags() : void{
@@ -134,12 +147,10 @@ export class BookEditComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
     if ((value || '').trim()) {
       this.tags.push(value.trim());
     }
 
-    // Reset the input value
     if (input) {
       input.value = '';
     }
@@ -149,7 +160,6 @@ export class BookEditComponent implements OnInit {
 
   remove(fruit: string): void {
     const index = this.tags.indexOf(fruit);
-
     if (index >= 0) {
       this.tags.splice(index, 1);
     }
@@ -179,7 +189,7 @@ export class BookEditComponent implements OnInit {
     return this.currentUser.roles.includes("ROLE_ADMIN");
   }
 
-  setUserStatus(){
+  getUserStatus(){
     if(this.currentUser == null) return;
     this.userService.getUserStatus(this.currentUser.id).subscribe(
       data => {

@@ -1,13 +1,12 @@
 <div *ngIf="isAuthorized()" class="col-md-12">
     <div class="card card-container">
   
-      <form  (ngSubmit)="f.form.valid && onUpload()" novalidate enctype="multipart/form-data"
+      <form  (ngSubmit)="f.form.valid && onUpload()" enctype="multipart/form-data"
         *ngIf="!isSuccessful"
         name="form"
         #f="ngForm"
         validate
       >
-      <div class="form-group">
         <div class="container" appDnd (fileDropped)="onFileDropped($event)">
           <input name="image" required type="file" #fileDropRef id="image" multiple (change)="onFileChange($event)" 
             accept="image/png, image/jpeg, image/gif, image/jpg" />
@@ -16,11 +15,9 @@
         <div *ngIf="image" class="mt-5" style="align-content : center">
           <h5 >Your photo:</h5>
           <div>
-            <img class="image-thumbnail" style="max-width: 100px" [src]="imagenMin">
+            <img class="image-thumbnail" style="max-width: 100px" [src]="addedImage">
           </div>
         </div>
-      </div>
-  
   
         <div class="form-group">
           <label for="name">Name</label>
@@ -57,14 +54,14 @@
           >
           </textarea>
         </div>
-      <div>
-        <div class="alert-danger" *ngIf="f.submitted && description.invalid">
-          <div *ngIf="description.errors.required">Description is required</div>
-          <div *ngIf="description.errors.description">
-            Desription must be a valid
-          </div>
+        <div>
+            <div class="alert-danger" *ngIf="f.submitted && description.invalid">
+                <div *ngIf="description.errors.required">Description is required</div>
+                <div *ngIf="description.errors.description">
+                Desription must be a valid
+                </div>
+            </div>
         </div>
-      </div>
   
         <div class="form-group">
           <label for="theme">Theme</label>

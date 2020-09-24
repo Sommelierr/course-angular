@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateCollectionComponent } from './create-collection.component';
+import { CollectionService } from '../_services/collection.service';
+import { UserService } from '../_services/user.service';
 
 describe('CreateCollectionComponent', () => {
   let component: CreateCollectionComponent;
@@ -8,7 +10,7 @@ describe('CreateCollectionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateCollectionComponent ]
+      declarations: [ CreateCollectionComponent, CollectionService, UserService]
     })
     .compileComponents();
   }));

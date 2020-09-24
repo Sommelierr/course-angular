@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   showModeratorBoard = false;
   username: string;
   currentUser : any;
+  title = 'course-angular';
 
   constructor(private tokenStorageService: TokenStorageService) { }
 

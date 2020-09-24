@@ -7,7 +7,6 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BoardUserComponent } from './board-user/board-user.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
-import { UserComponent } from './user/user.component';
 import { CreateCollectionComponent } from './create-collection/create-collection.component';
 import { BookCollectionDetailsComponent } from './book-collection-details/book-collection-details.component';
 import { AlcoholCollectionDetailsComponent } from './alcohol-collection-details/alcohol-collection-details.component';
@@ -18,6 +17,7 @@ import { BookDetailsComponent } from './book-details/book-details.component';
 import { AlcoholDetailsComponent } from './alcohol-details/alcohol-details.component';
 import { BookEditComponent } from './book-edit/book-edit.component';
 import { AlcoholEditComponent } from './alcohol-edit/alcohol-edit.component';
+import { FindResultComponent } from './find-result/find-result.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -27,7 +27,6 @@ const routes: Routes = [
   { path: 'user/:userId', component: BoardUserComponent },
   { path: 'admin', component: BoardAdminComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'users', component: UserComponent },
   { path: 'user/:userId/cc', component: CreateCollectionComponent},
   { path: 'user/:userId/:collectionType/b/:collectionId', component: BookCollectionDetailsComponent},
   { path: 'user/:userId/:collectionType/a/:collectionId', component: AlcoholCollectionDetailsComponent},
@@ -37,7 +36,8 @@ const routes: Routes = [
   { path: 'user/:userId/:collectionType/b/:collectionId/:bookId', component: BookDetailsComponent},
   { path: 'user/:userId/:collectionType/a/:collectionId/:alcoholId', component: AlcoholDetailsComponent},
   { path: 'user/:userId/:collectionType/b/:collectionId/:bookId/edit', component: BookEditComponent},
-  { path: 'user/:userId/:collectionType/a/:collectionId/:alcoholId/edit', component: AlcoholEditComponent}
+  { path: 'user/:userId/:collectionType/a/:collectionId/:alcoholId/edit', component: AlcoholEditComponent},
+  { path: 'find/:word', component: FindResultComponent}
 ];
 
 @NgModule({

@@ -7,9 +7,6 @@
       <li class="nav-item" *ngIf="showAdminBoard">
         <a href="/admin" class="nav-link" routerLink="admin">Admin Board</a>
       </li>
-      <li class="nav-item" *ngIf="showModeratorBoard">
-        <a href="/mod" class="nav-link" routerLink="mod">Moderator Board</a>
-      </li>
       <li class="nav-item">
         <a href="/user/{{currentUser.id}}" class="nav-link" *ngIf="isLoggedIn" routerLink="user/{{currentUser.id}}">Collections</a>
       </li>

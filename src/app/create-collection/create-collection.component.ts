@@ -13,11 +13,11 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CreateCollectionComponent implements OnInit {
 
-  @ViewChild('imagenInputFile', {static: false}) imagenFile: ElementRef;
+  @ViewChild('imagenInputFile', {static: false}) imageFile: ElementRef;
 
   image: File;
   image1 : File;
-  imagenMin: File;
+  addedImage: File;
   form: any = {};
   isSuccessful = false;
   isFailed = false;
@@ -25,7 +25,8 @@ export class CreateCollectionComponent implements OnInit {
   currentUser : any;
   userId : any;
   blocked : boolean;
-  constructor(private collectionService: CollectionService,
+  constructor(
+     private collectionService: CollectionService,
      private token: TokenStorageService,
      private router: Router,
      private spinner: NgxSpinnerService,
@@ -45,7 +46,7 @@ export class CreateCollectionComponent implements OnInit {
     this.image = event.target.files[0];
     const fr = new FileReader();
     fr.onload = (evento: any) => {
-      this.imagenMin = evento.target.result;
+      this.addedImage = evento.target.result;
     };
     fr.readAsDataURL(this.image);
   }
@@ -67,8 +68,8 @@ export class CreateCollectionComponent implements OnInit {
 
   reset(): void {
     this.image = null;
-    this.imagenMin = null;
-    this.imagenFile.nativeElement.value = '';
+    this.addedImage = null;
+    this.imageFile.nativeElement.value = '';
   }
 
   isAuthorized() : boolean{

@@ -151,8 +151,9 @@ export class AlcoholDetailsComponent implements OnInit {
   isAuthorized() : boolean{
     this.currentUser = this.token.getUser();
     if(this.currentUser == null) return false;
+    if(this.isAdmin()) return true;
     if(this.blocked) return false;
-    if(this.currentUser.id == this.userId || this.isAdmin()) return true;
+    if(this.currentUser.id == this.userId) return true;
     else return false;
   }
 
@@ -163,7 +164,7 @@ export class AlcoholDetailsComponent implements OnInit {
     else return true;
   }
 
-  isAdmin() : void {
+  isAdmin() : boolean {
     return this.currentUser.roles.includes("ROLE_ADMIN");
   }
 

@@ -7,6 +7,13 @@
   <a *ngIf="isAuthorized()" href="/user/{{userId}}/{{collectionType}}/b/{{collectionId}}/{{bookId}}/edit" class="c">Edit</a>
 
 <h2>Name : {{book.name}}</h2>
+<table>
+<tr *ngFor="let tag of tags;">
+  <td>
+   #{{tag}}
+ </td>
+ </tr>
+</table>
 <h3 *ngIf="showField(1)">Cost : {{book.cost}}</h3>
 <h3 *ngIf="showField(2)">Count of pages : {{book.countOfPages}}</h3>
 <h3 *ngIf="showField(4)">Weight : {{book.weight}}</h3>

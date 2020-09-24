@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../_services/user.service';
+import { HttpClient } from '@angular/common/http';
+import { FindService } from '../_services/find.service';
+import { CloudData, ZoomOnHoverOptions } from 'angular-tag-cloud-module';
 
 @Component({
   selector: 'app-home',
@@ -9,18 +11,24 @@ import { UserService } from '../_services/user.service';
 export class HomeComponent implements OnInit {
 
   content: string;
+  homeData : any;
+  tags : string[];
+  collection : any;
+  alcohol : any;
+  book : any;
+  cloudTags: CloudData[];
+  constructor(private findService: FindService, private http: HttpClient) { }
 
-  constructor(private userService: UserService) { }
-
-  ngOnInit(): void {
-    this.userService.getPublicContent().subscribe(
-      data => {
-        this.content = data;
-      },
-      err => {
-        this.content = JSON.parse(err.error).message;
+  ngOnInit(){
+    this.findService.getHome().subscribe(
+      data =>{
+        this.homeData = data;
+        this.cloudTags = this.homeData.tags;
+        this.collection = data.collection;
+        console.log(this.collection);
+        this.alcohol = data.alcohol;
+        this.book = data.book;
       }
     );
   }
-
 }

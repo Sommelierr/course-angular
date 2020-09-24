@@ -1,5 +1,60 @@
+<header class="jumbotron">
+</header>
+<div class="cloud">
+  <angular-tag-cloud
+    [data]="cloudTags"
+    [overflow]="false">
+  </angular-tag-cloud>
+</div>
 <div class="container">
-  <header class="jumbotron">
-    <p>{{ content }}</p>
-  </header>
+<h3 class="h3">The biggest collection</h3>
+  <table class="table table-dark" *ngIf="collection.theme == 'Books'">
+    <tr>
+      <td>
+        {{collection.name}}
+      </td>
+      <td>
+        {{collection.theme}}
+      </td>
+      <td>
+        <a href="/user/{{collection.userId}}/bc/b/{{collection.id}}">Details</a>
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="container">
+<table class="table table-dark" *ngIf="collection.theme == 'Alcohol'">
+  <tr>
+    <td>
+      {{collection.name}}
+    </td>
+    <td>
+      {{collection.theme}}
+    </td>
+    <td>
+      <a href="/user/{{collection.userId}}/ac/a/{{collection.id}}">Details</a>
+    </td>
+  </tr>
+</table>
+</div>
+<div class="container">
+<h3 class="h3">The latest items</h3>
+<table class="table table-dark">
+<tr *ngIf="book != null">
+<td>
+  {{book.name}}
+</td>
+<td>
+  <a href="user/{{book.userId}}/bc/b/{{book.collectionId}}/{{book.id}}">Details</a>
+</td>
+</tr>
+<tr *ngIf="alcohol != null">
+  <td>
+    {{alcohol.name}}
+  </td>
+  <td>
+    <a href="user/{{alcohol.userId}}/ac/a/{{alcohol.collectionId}}/{{alcohol.id}}">Details</a>
+  </td>
+</tr>
+</table>
 </div>

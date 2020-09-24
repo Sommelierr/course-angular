@@ -124,13 +124,11 @@ export class BookCreateComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-
-    // Add our fruit
+    
     if ((value || '').trim()) {
       this.tags.push(value.trim());
     }
 
-    // Reset the input value
     if (input) {
       input.value = '';
     }
@@ -161,8 +159,9 @@ export class BookCreateComponent implements OnInit {
   isAuthorized() : boolean{
     this.currentUser = this.token.getUser();
     if(this.currentUser == null) return false;
+    if(this.isAdmin()) return true;
     if(this.blocked) return false;
-    if(this.currentUser.id == this.userId || this.isAdmin()) return true;
+    if(this.currentUser.id == this.userId) return true;
     else return false;
   }
 

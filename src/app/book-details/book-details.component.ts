@@ -31,6 +31,7 @@ export class BookDetailsComponent implements OnInit {
   likeJson : any;
   bitMaskJson : any;
   blocked : boolean;
+  tags : string[];
 
   constructor(
     private userService : UserService, 
@@ -42,24 +43,16 @@ export class BookDetailsComponent implements OnInit {
     ){};
 
   ngOnInit(): void {
-    this.bookId = this.route.snapshot.params["bookId"];
-    this.collectionType = this.route.snapshot.params["collectionType"];
-    this.userId = this.route.snapshot.params["userId"];
-    this.collectionId = this.route.snapshot.params["collectionId"];
+
     this.currentUser = this.token.getUser();
     if(this.currentUser != null){
-    this.itemService.getLikeStatus(this.currentUser.id, this.bookId, this.collectionType).subscribe(
-      data => {
-        this.likeJson = data;
-        this.likeStatus = this.likeJson.status;
-      }
-    )
-  }
-
+    this.setPathVariables();
+    this.getLikeStatus();
     this.itemService.getBook(this.bookId).subscribe(
       data => {
         this.book = data;
         this.bookBitMask = this.book.bitMask;
+        this.tags  = data.tags;
       },
       err => { this.book = JSON.parse(err.error).message;}
     );
@@ -70,6 +63,23 @@ export class BookDetailsComponent implements OnInit {
         }
     )
     this.setUserStatus();
+  }
+}
+
+  getLikeStatus() : void{
+    this.itemService.getLikeStatus(this.currentUser.id, this.bookId, this.collectionType).subscribe(
+      data => {
+        this.likeJson = data;
+        this.likeStatus = this.likeJson.status;
+      }
+    )
+    }
+
+  setPathVariables() : void{
+    this.bookId = this.route.snapshot.params["bookId"];
+    this.collectionType = this.route.snapshot.params["collectionType"];
+    this.userId = this.route.snapshot.params["userId"];
+    this.collectionId = this.route.snapshot.params["collectionId"];
   }
 
   deleteBook(): void{
@@ -144,7 +154,7 @@ export class BookDetailsComponent implements OnInit {
   }
 
     isLikeable() : boolean{
-  this.currentUser = this.token.getUser();
+    this.currentUser = this.token.getUser();
     if(this.currentUser == null) return false;
     if(this.blocked) return false;
     else return true;
@@ -157,8 +167,9 @@ export class BookDetailsComponent implements OnInit {
   isAuthorized() : boolean{
     this.currentUser = this.token.getUser();
     if(this.currentUser == null) return false;
+    if(this.isAdmin()) return true;
     if(this.blocked) return false;
-    if(this.currentUser.id == this.userId || this.isAdmin()) return true;
+    if(this.currentUser.id == this.userId) return true;
     else return false;
   }
 

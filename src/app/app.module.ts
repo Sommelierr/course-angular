@@ -18,7 +18,7 @@ import { BookDetailsComponent } from './book-details/book-details.component';
 import { AlcoholDetailsComponent } from './alcohol-details/alcohol-details.component';
 
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
-import { UserComponent } from './user/user.component';
+import { CollectionService } from './_services/collection.service';
 import { CreateCollectionComponent } from './create-collection/create-collection.component';
 import { EditCollectionComponent } from './collection-edit/collection-edit.component';
 import { BookCreateComponent } from './book-create/book-create.component';
@@ -32,6 +32,8 @@ import { BookEditComponent } from './book-edit/book-edit.component';
 import { AlcoholEditComponent } from './alcohol-edit/alcohol-edit.component';
 import {MatButtonModule} from '@angular/material/button';
 import { AlcoholCreateComponent } from './alcohol-create/alcohol-create.component';
+import { TagCloudModule } from 'angular-tag-cloud-module';
+import { FindResultComponent } from './find-result/find-result.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +43,6 @@ import { AlcoholCreateComponent } from './alcohol-create/alcohol-create.componen
     ProfileComponent,
     BoardAdminComponent,
     BoardUserComponent,
-    UserComponent,
     CreateCollectionComponent,
     BookCollectionDetailsComponent,
     AlcoholCollectionDetailsComponent,
@@ -51,7 +52,8 @@ import { AlcoholCreateComponent } from './alcohol-create/alcohol-create.componen
     BookDetailsComponent,
     AlcoholDetailsComponent,
     BookEditComponent,
-    AlcoholEditComponent
+    AlcoholEditComponent,
+    FindResultComponent
     
   ],
   imports: [
@@ -65,9 +67,10 @@ import { AlcoholCreateComponent } from './alcohol-create/alcohol-create.componen
     MatAutocompleteModule,
     BrowserAnimationsModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule, 
+    TagCloudModule
   ],
-  providers: [authInterceptorProviders],
+  providers: [authInterceptorProviders, CollectionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

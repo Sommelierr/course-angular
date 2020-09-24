@@ -1,0 +1,24 @@
+<div>
+    <table class="table table-dark">
+        <tr *ngFor="let book of items.books;">
+            <td>
+             {{book.name}}
+           </td>
+           <td>
+           <a href="/user/{{book.userId}}/bc/b/{{book.collectionId}}/{{book.id}}" class="c">Details</a>
+         </td>
+         </tr>
+    </table>
+</div>
+<div>
+    <table class="table table-dark">
+        <tr *ngFor="let alcohol of items.alcohols;">
+            <td>
+             {{alcohol.name}}
+           </td>
+           <td>
+           <a href="/user/{{alcohol.userId}}/ac/a/{{alcohol.collectionId}}/{{alcohol.id}}" class="c">Details</a>
+         </td>
+         </tr>
+    </table>
+</div>

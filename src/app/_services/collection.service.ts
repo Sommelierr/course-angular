@@ -4,9 +4,9 @@ import { Observable } from 'rxjs';
 
 const API = 'http://localhost:8080/api/';
 
-// const httpOptions = {
-//   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-// };
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class CollectionService {
   constructor(private http: HttpClient) { }
 
   getCollectionCreaterForm(id): Observable<any> {
-    return this.http.get(API + `${id}`+ '/' + 'create');
+    return this.http.get(API + `${id}`+ '/' + 'create', httpOptions);
   }
 
   createCollection(collection, image : File, id): Observable<any> {

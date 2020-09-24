@@ -101,12 +101,19 @@ export class AlcoholCreateComponent implements OnInit {
   }
 
   onSubmit() : void{
+    this.defineFormValues();
+    this.itemService.createAlcohol(this.form, this.tags,this.collectionId).subscribe();
+    this.router.navigate(['/user/'+ `${this.userId}` + '/' + `${this.collectionType}`  +  '/a/' + `${this.collectionId}`]);
+  }
+
+  defineFormValues(){
     this.form.hasOneLiter = this.defineValue(this.form.hasOneLiter);
     this.form.hasTwoLiters = this.defineValue(this.form.hasTwoLiters);
     this.form.hasFiveLiters = this.defineValue(this.form.hasFiveLiters);
+    if(this.form.cost == undefined) this.form.cost = 0;
+    if(this.form.percent == undefined) this.form.percent = 0;
+    if(this.form.volume == undefined) this.form.volume = 0;
 
-    this.itemService.createAlcohol(this.form, this.tags,this.collectionId).subscribe();
-    this.router.navigate(['/user/'+ `${this.userId}` + '/' + `${this.collectionType}`  +  '/a/' + `${this.collectionId}`]);
   }
 
   defineValue(value : any) : any{
@@ -119,12 +126,10 @@ export class AlcoholCreateComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
     if ((value || '').trim()) {
       this.tags.push(value.trim());
     }
 
-    // Reset the input value
     if (input) {
       input.value = '';
     }
@@ -155,12 +160,13 @@ export class AlcoholCreateComponent implements OnInit {
   isAuthorized() : boolean{
     this.currentUser = this.token.getUser();
     if(this.currentUser == null) return false;
+    if(this.isAdmin()) return true;
     if(this.blocked) return false;
-    if(this.currentUser.id == this.userId || this.isAdmin()) return true;
+    if(this.currentUser.id == this.userId) return true;
     else return false;
   }
 
-  isAdmin() : void {
+  isAdmin() : boolean {
     return this.currentUser.roles.includes("ROLE_ADMIN");
   }
 

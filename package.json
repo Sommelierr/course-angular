@@ -1,5 +1,5 @@
 {
-  "name": "angular10-jwt-auth",
+  "name": "course-angular",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "~10.0.0",
     "@angular/router": "~10.0.0",
     "@material/chips": "^7.0.0",
+    "angular-tag-cloud-module": "^5.1.0",
     "ngx-spinner": "^10.0.1",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
@@ -35,6 +36,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0-next.1",
+    "copyfiles": "^2.3.0",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.0.0",
