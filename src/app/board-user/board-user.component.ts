@@ -16,7 +16,6 @@ export class BoardUserComponent implements OnInit {
   collection : any;
   userId : any;
   bc : string = 'bc';
-  mc : string = 'mc';
   ac : string = 'ac';
   blocked : any;
 
@@ -24,6 +23,10 @@ export class BoardUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.params["userId"];
+    this.getUserCollections();
+  }
+
+  getUserCollections(): void{
     this.userService.getUserById(this.userId).subscribe(
       data => {
         this.collections = data;

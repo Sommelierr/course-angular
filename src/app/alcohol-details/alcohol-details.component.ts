@@ -42,35 +42,51 @@ export class AlcoholDetailsComponent implements OnInit {
     ){};
 
   ngOnInit(): void {
-    this.alcoholId = this.route.snapshot.params["alcoholId"];
-    this.collectionType = this.route.snapshot.params["collectionType"];
-    this.userId = this.route.snapshot.params["userId"];
-    this.collectionId = this.route.snapshot.params["collectionId"];
+    this.setPathVariables();
     this.currentUser = this.token.getUser();
-    if(this.currentUser != null){
-    this.itemService.getLikeStatus(this.currentUser.id, this.alcoholId, this.collectionType).subscribe(
+    this.getUserStatus();
+    this.getAlcohol();
+    this.getCollectionBitMask();
+    this.getUserStatus();
+  }
+
+  getCollectionBitMask(){
+    this.collectionService.getAlcoholCollectionBitMask(this.collectionId).subscribe(
       data => {
-        this.likeJson = data;
-        this.likeStatus = this.likeJson.status;
+        this.bitMaskJson = data;
+        this.collectionBitMask = this.bitMaskJson.bitMask;
       }
     )
   }
 
+  getAlcohol(){
     this.itemService.getAlcohol(this.alcoholId).subscribe(
       data => {
         this.alcohol = data;
-        this.alcoholBitMask = this.alcohol.bitMask;
+        this.alcoholBitMask = data.bitMask;
       },
       err => { this.alcohol = JSON.parse(err.error).message;}
     );
-    this.collectionService.getAlcoholCollectionBitMask(this.collectionId).subscribe(
-        data => {
-          this.bitMaskJson = data;
-          this.collectionBitMask = this.bitMaskJson.bitMask;
-        }
-    )
-    this.setUserStatus();
   }
+
+  getLikeStatus(){
+    if(this.currentUser != null){
+      this.itemService.getLikeStatus(this.currentUser.id, this.alcoholId, this.collectionType).subscribe(
+        data => {
+          this.likeJson = data;
+          this.likeStatus = this.likeJson.status;
+        }
+      )
+    }
+  }
+
+  setPathVariables(){
+    this.alcoholId = this.route.snapshot.params["alcoholId"];
+    this.collectionType = this.route.snapshot.params["collectionType"];
+    this.userId = this.route.snapshot.params["userId"];
+    this.collectionId = this.route.snapshot.params["collectionId"];
+  }
+
 
   deleteAlcohol(): void{
     this.itemService.deleteAlcohol(this.alcoholId)
@@ -168,7 +184,7 @@ export class AlcoholDetailsComponent implements OnInit {
     return this.currentUser.roles.includes("ROLE_ADMIN");
   }
 
-  setUserStatus(){
+  getUserStatus(){
     if(this.currentUser == null) return;
     this.userService.getUserStatus(this.currentUser.id).subscribe(
       data => {

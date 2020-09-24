@@ -25,7 +25,6 @@ export class HomeComponent implements OnInit {
         this.homeData = data;
         this.cloudTags = this.homeData.tags;
         this.collection = data.collection;
-        console.log(this.collection);
         this.alcohol = data.alcohol;
         this.book = data.book;
       }

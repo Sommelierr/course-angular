@@ -58,10 +58,33 @@ export class AlcoholEditComponent implements OnInit {
      private userService: UserService) { }
 
   ngOnInit(): void {
-    this.userId = this.route.snapshot.params["userId"];
-    this.collectionId = this.route.snapshot.params["collectionId"];
-    this.collectionType = this.route.snapshot.params["collectionType"];
-    this.alcoholId = this.route.snapshot.params["alcoholId"];
+    this.setPathVariables();
+    this.getAlcohol();
+    this.getAllTags();
+    this.getCollectionBitMask();
+    this.getUserStatus();
+  }
+
+  getCollectionBitMask(){
+    this.collectionService.getAlcoholCollectionBitMask(this.collectionId).subscribe(
+      data => {
+        this.collection = data;
+        this.collectionBitMask = this.collection.bitMask;
+      },
+      err => {
+        this.collection = JSON.parse(err.error).message;
+      })
+  }
+
+  getAllTags(){
+    this.itemService.getAllTags().subscribe(
+      data =>{
+        this.allTags = data;
+    this.filterTags();
+      })
+  }
+
+  getAlcohol(){
     this.itemService.getAlcohol(this.alcoholId).subscribe(
       data => {
         this.alcohol = data;
@@ -71,24 +94,13 @@ export class AlcoholEditComponent implements OnInit {
       data =>{this.tags = data;}
   
     )
+  }
 
-    this.itemService.getAllTags().subscribe(
-      data =>{
-        this.allTags = data;
-    this.filterTags();
-      })
-
-
-    this.collectionService.getAlcoholCollectionBitMask(this.collectionId).subscribe(
-      data => {
-        this.collection = data;
-        this.collectionBitMask = this.collection.bitMask;
-      },
-      err => {
-        this.collection = JSON.parse(err.error).message;
-      })
-
-    this.setUserStatus();
+  setPathVariables(){
+    this.userId = this.route.snapshot.params["userId"];
+    this.collectionId = this.route.snapshot.params["collectionId"];
+    this.collectionType = this.route.snapshot.params["collectionType"];
+    this.alcoholId = this.route.snapshot.params["alcoholId"];
   }
 
   filterTags() : void{
@@ -178,7 +190,7 @@ export class AlcoholEditComponent implements OnInit {
     return this.currentUser.roles.includes("ROLE_ADMIN");
   }
 
-  setUserStatus(){
+  getUserStatus(){
     if(this.currentUser == null) return;
     this.userService.getUserStatus(this.currentUser.id).subscribe(
       data => {

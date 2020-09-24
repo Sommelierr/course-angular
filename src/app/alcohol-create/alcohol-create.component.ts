@@ -55,16 +55,13 @@ export class AlcoholCreateComponent implements OnInit {
      private userService : UserService) { }
 
   ngOnInit(): void {
-    this.userId = this.route.snapshot.params["userId"];
-    this.collectionId = this.route.snapshot.params["collectionId"];
-    this.collectionType = this.route.snapshot.params["collectionType"];
-    this.itemService.getAllTags().subscribe(
-      data =>{
-        this.allTags = data;
-    this.filterTags();
-      })
+    this.setPathVariables();
+    this.getAllTags();
+    this.getCollectionBitMask();
+    this.setUserStatus();
+  }
 
-
+  getCollectionBitMask(){
     this.collectionService.getAlcoholCollectionBitMask(this.collectionId).subscribe(
       data => {
         this.collection =data;
@@ -72,8 +69,21 @@ export class AlcoholCreateComponent implements OnInit {
       },
       err => {
         this.collection = JSON.parse(err.error).message;
+    })
+  }
+
+  setPathVariables(){
+    this.userId = this.route.snapshot.params["userId"];
+    this.collectionId = this.route.snapshot.params["collectionId"];
+    this.collectionType = this.route.snapshot.params["collectionType"];
+  }
+
+  getAllTags(){
+    this.itemService.getAllTags().subscribe(
+      data =>{
+        this.allTags = data;
+    this.filterTags();
       })
-      this.setUserStatus();
   }
 
   filterTags() : void{

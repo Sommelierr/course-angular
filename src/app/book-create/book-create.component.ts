@@ -55,16 +55,13 @@ export class BookCreateComponent implements OnInit {
      private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.userId = this.route.snapshot.params["userId"];
-    this.collectionId = this.route.snapshot.params["collectionId"];
-    this.collectionType = this.route.snapshot.params["collectionType"];
-    this.itemService.getAllTags().subscribe(
-      data =>{
-        this.allTags = data;
-    this.filterTags();
-      })
+    this.setPathVariables();
+    this.getAllTags();
+    this.getCollectionBitMask();
+    this.setUserStatus();
+  }
 
-
+  getCollectionBitMask() : void{
     this.collectionService.getBookCollectionBitMask(this.collectionId).subscribe(
       data => {
         this.collection =data;
@@ -73,7 +70,20 @@ export class BookCreateComponent implements OnInit {
       err => {
         this.collection = JSON.parse(err.error).message;
       })
-      this.setUserStatus();
+  }
+
+  getAllTags() : void{
+    this.itemService.getAllTags().subscribe(
+      data =>{
+        this.allTags = data;
+    this.filterTags();
+      })
+  }
+
+  setPathVariables() : void {
+    this.userId = this.route.snapshot.params["userId"];
+    this.collectionId = this.route.snapshot.params["collectionId"];
+    this.collectionType = this.route.snapshot.params["collectionType"];
   }
 
   filterTags() : void{
@@ -124,24 +134,14 @@ export class BookCreateComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-    
-    if ((value || '').trim()) {
-      this.tags.push(value.trim());
-    }
-
-    if (input) {
-      input.value = '';
-    }
-
+    if ((value || '').trim()) this.tags.push(value.trim());
+    if (input) input.value = '';
     this.tagCtrl.setValue(null);
   }
 
   remove(fruit: string): void {
     const index = this.tags.indexOf(fruit);
-
-    if (index >= 0) {
-      this.tags.splice(index, 1);
-    }
+    if (index >= 0) this.tags.splice(index, 1);
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
@@ -152,7 +152,6 @@ export class BookCreateComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this.allTags.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
   }
 

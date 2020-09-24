@@ -32,20 +32,25 @@ export class AlcoholCollectionDetailsComponent implements OnInit {
     ){};
 
   ngOnInit(): void {
-    this.collectionId = this.route.snapshot.params["collectionId"];
-    this.userId = this.route.snapshot.params["userId"];
-    this.collectionType = this.route.snapshot.params["collectionType"];
+    this.setPathVariables();
+    this.getCollection();
+  }
+
+  getCollection(){
     this.collectionService.getCollection(this.userId, this.collectionId, this.collectionType).subscribe(
       data => {
-        console.log(data);
         this.collection = data;
         this.result = this.collection.bitMask;
         this.blocked = this.collection.blocked;
       },
       err => {
-        this.collection = JSON.parse(err.error).message;
-      }
-    );
+        this.collection = JSON.parse(err.error).message;});
+  }
+
+  setPathVariables(){
+    this.collectionId = this.route.snapshot.params["collectionId"];
+    this.userId = this.route.snapshot.params["userId"];
+    this.collectionType = this.route.snapshot.params["collectionType"];
   }
 
   deleteCollection(): void{

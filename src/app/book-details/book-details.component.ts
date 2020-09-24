@@ -43,28 +43,35 @@ export class BookDetailsComponent implements OnInit {
     ){};
 
   ngOnInit(): void {
-
     this.currentUser = this.token.getUser();
     if(this.currentUser != null){
-    this.setPathVariables();
     this.getLikeStatus();
+    this.getUserStatus();
+    }
+    this.setPathVariables();
+    this.getBook();
+    this.getCollectionBitMask();
+  }
+
+  getCollectionBitMask() : void {
+    this.collectionService.getBookCollectionBitMask(this.collectionId).subscribe(
+      data => {
+        this.bitMaskJson = data;
+        this.collectionBitMask = this.bitMaskJson.bitMask;
+      }
+    )
+  }
+
+  getBook() : void{
     this.itemService.getBook(this.bookId).subscribe(
       data => {
         this.book = data;
-        this.bookBitMask = this.book.bitMask;
+        this.bookBitMask = data.bitMask;
         this.tags  = data.tags;
       },
       err => { this.book = JSON.parse(err.error).message;}
     );
-    this.collectionService.getBookCollectionBitMask(this.collectionId).subscribe(
-        data => {
-          this.bitMaskJson = data;
-          this.collectionBitMask = this.bitMaskJson.bitMask;
-        }
-    )
-    this.setUserStatus();
   }
-}
 
   getLikeStatus() : void{
     this.itemService.getLikeStatus(this.currentUser.id, this.bookId, this.collectionType).subscribe(
@@ -177,7 +184,7 @@ export class BookDetailsComponent implements OnInit {
     return this.currentUser.roles.includes("ROLE_ADMIN");
   }
 
-  setUserStatus(){
+  getUserStatus(){
     if(this.currentUser == null) return;
     this.userService.getUserStatus(this.currentUser.id).subscribe(
       data => {

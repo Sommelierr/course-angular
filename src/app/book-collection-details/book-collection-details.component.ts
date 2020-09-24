@@ -32,9 +32,11 @@ export class BookCollectionDetailsComponent implements OnInit {
     ){};
 
   ngOnInit(): void {
-    this.collectionId = this.route.snapshot.params["collectionId"];
-    this.userId = this.route.snapshot.params["userId"];
-    this.collectionType = this.route.snapshot.params["collectionType"];
+    this.setPathVariables();
+    this.getCollection();
+  }
+
+  getCollection() : void{
     this.collectionService.getCollection(this.userId, this.collectionId, this.collectionType).subscribe(
       data => {
         this.collection = data;
@@ -45,6 +47,12 @@ export class BookCollectionDetailsComponent implements OnInit {
         this.collection = JSON.parse(err.error).message;
       }
     );
+  }
+
+  setPathVariables() : void{
+    this.collectionId = this.route.snapshot.params["collectionId"];
+    this.userId = this.route.snapshot.params["userId"];
+    this.collectionType = this.route.snapshot.params["collectionType"];
   }
 
   deleteCollection(): void{

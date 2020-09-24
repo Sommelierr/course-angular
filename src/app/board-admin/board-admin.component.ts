@@ -26,8 +26,12 @@ export class BoardAdminComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.token.getUser();
     if(this.currentUser == null) this.router.navigate(['/home']);
-    this.setUserStatus();
-    if(this.isAdmin() && !this.blocked){
+    this.getUserStatus();
+    if(!this.isAdmin() || this.blocked) this.router.navigate(['/home']);
+    this.getUsers();
+  }
+
+  getUsers(){
     this.adminService.getUsers().subscribe(
       data => {
         this.users = data;
@@ -36,8 +40,6 @@ export class BoardAdminComponent implements OnInit {
         this.users = JSON.parse(err.error).message;
       }
     );
-    }
-    else this.router.navigate(['/home']);
   }
 
   block(){
@@ -82,7 +84,7 @@ isAdmin() : boolean {
   return this.currentUser.roles.includes("ROLE_ADMIN");
 }
   
-setUserStatus(){
+getUserStatus(){
   if(this.currentUser == null) return;
   this.userService.getUserStatus(this.currentUser.id).subscribe(
     data => {

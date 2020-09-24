@@ -5,9 +5,8 @@
   <a href="/user/{{userId}}/cc" class="c">Create collection</a>
 </div>
 
-  <h5>Your collections</h5>
+  <h5>Collections</h5>
   <div>
-    b
     <table>
       <tr *ngFor="let bCollection of collections.bookCollections;">
         <img src={{bCollection.image.url}} alt="err">
@@ -17,17 +16,6 @@
         <a href="user/{{userId}}/{{bc}}/b/{{bCollection.id}}">Details</a>
       </tr>
     </table>
-    m
-    <table>
-      <tr *ngFor="let mCollection of collections.markCollections;">
-        <img src={{mCollection.image.url}} alt="err">
-        <td>
-          {{mCollection.name}}
-        </td>
-        <a href="user/{{userId}}/{{mc}}/{{mCollection.id}}">Details</a>
-      </tr>
-    </table>
-    a
     <table>
       <tr *ngFor="let aCollection of collections.alcoholCollections;">
         <img src={{aCollection.image.url}} alt="err">
