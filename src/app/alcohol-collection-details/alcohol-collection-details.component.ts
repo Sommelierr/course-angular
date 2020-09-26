@@ -18,7 +18,7 @@ export class AlcoholCollectionDetailsComponent implements OnInit {
   userId : any;
   collectionId : any;
   collection : any;
-  collectionType : any;
+  collectionType : 'ac';
   form : any = {};
   result : any = 0;
   blocked : any;

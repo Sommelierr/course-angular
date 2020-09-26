@@ -44,11 +44,11 @@ export class BookDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.token.getUser();
-    if(this.currentUser != null){
+    this.setPathVariables();
+    if(this.currentUser != null && this.currentUser != undefined){
     this.getLikeStatus();
     this.getUserStatus();
     }
-    this.setPathVariables();
     this.getBook();
     this.getCollectionBitMask();
   }

@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
     this.findService.getHome().subscribe(
       data =>{
         this.homeData = data;
-        this.cloudTags = this.homeData.tags;
+        this.cloudTags = data.tags;
         this.collection = data.collection;
         this.alcohol = data.alcohol;
         this.book = data.book;
