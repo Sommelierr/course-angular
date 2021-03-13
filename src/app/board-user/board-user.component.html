@@ -1,28 +1,31 @@
 <div class="container">
-  <header class="jumbotron">
-  </header>
 <div *ngIf="isAuthorized()">
   <a href="/user/{{userId}}/cc" class="c">Create collection</a>
 </div>
-
-  <h5>Collections</h5>
+  <h3>Collections</h3>
   <div>
     <table>
       <tr *ngFor="let bCollection of collections.bookCollections;">
-        <img src={{bCollection.image.url}} alt="err">
+        <div>
         <td>
-          {{bCollection.name}}
+          Name:{{bCollection.name}}
+          <a href="user/{{userId}}/{{bc}}/b/{{bCollection.id}}">Details</a>
         </td>
-        <a href="user/{{userId}}/{{bc}}/b/{{bCollection.id}}">Details</a>
+      </div>
+        <img src={{bCollection.image.url}} alt="err">
       </tr>
     </table>
+  </div>
+  <div>
     <table>
       <tr *ngFor="let aCollection of collections.alcoholCollections;">
-        <img src={{aCollection.image.url}} alt="err">
+        <div>
         <td>
-          {{aCollection.name}}
+          Name:{{aCollection.name}}
+          <a href="user/{{userId}}/{{ac}}/a/{{aCollection.id}}">Details</a>
         </td>
-        <a href="user/{{userId}}/{{ac}}/a/{{aCollection.id}}">Details</a>
+      </div>
+        <img src={{aCollection.image.url}} alt="err">
       </tr>
     </table>
   </div>

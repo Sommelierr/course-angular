@@ -44,8 +44,8 @@ export class AlcoholDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.setPathVariables();
     this.currentUser = this.token.getUser();
-    this.getUserStatus();
     this.getAlcohol();
+    this.getLikeStatus();
     this.getCollectionBitMask();
     this.getUserStatus();
   }
@@ -156,7 +156,6 @@ export class AlcoholDetailsComponent implements OnInit {
   }
 
   isLiked() : boolean{
-    console.log(this.likeStatus);
     return this.likeStatus;
   }
 

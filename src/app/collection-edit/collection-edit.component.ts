@@ -13,10 +13,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class EditCollectionComponent implements OnInit {
 
-  @ViewChild('imagenInputFile', {static: false}) imagenFile: ElementRef;
-
   image: File;
-  imagenMin: File;
+  addedImage: File;
   form: any = {};
   isSuccessful = false;
   isFailed = false;
@@ -35,9 +33,12 @@ export class EditCollectionComponent implements OnInit {
      private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.userId = this.route.snapshot.params["userId"];
-    this.collectionType = this.route.snapshot.params["collectionType"];
-    this.collectionId = this.route.snapshot.params["collectionId"];
+    this.setPathVariables();
+    this.getCollection();
+    this.setUserStatus();
+  }
+
+  getCollection(){
     this.collectionService.getCollection(this.userId,this.collectionId, this.collectionType).subscribe(
       data => {
         this.collection = data;
@@ -46,14 +47,19 @@ export class EditCollectionComponent implements OnInit {
         this.collection = JSON.parse(err.error).message;
       }
     );
-    this.setUserStatus();
+  }
+
+  setPathVariables(){
+    this.userId = this.route.snapshot.params["userId"];
+    this.collectionType = this.route.snapshot.params["collectionType"];
+    this.collectionId = this.route.snapshot.params["collectionId"];
   }
 
   onFileChange(event) {
     this.image = event.target.files[0];
     const fr = new FileReader();
     fr.onload = (evento: any) => {
-      this.imagenMin = evento.target.result;};
+      this.addedImage = evento.target.result;};
     fr.readAsDataURL(this.image);
   }
 
@@ -65,7 +71,6 @@ export class EditCollectionComponent implements OnInit {
       this.userId, this.collectionType, this.collectionId).subscribe(
       data => {
         this.spinner.hide();
-        this.router.navigate(['/user/'+ `${this.userId}`]);
       },
       err => {
         alert(err.error.mensaje);
@@ -73,12 +78,12 @@ export class EditCollectionComponent implements OnInit {
         this.reset();
       }
     );
+    this.router.navigate(['/user/'+ `${this.userId}`]);
   }
 
   reset(): void {
     this.image = null;
-    this.imagenMin = null;
-    this.imagenFile.nativeElement.value = '';
+    this.addedImage = null;
   }
 
   isAuthorized() : boolean{

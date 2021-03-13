@@ -40,10 +40,8 @@ export class BookCreateComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   tagCtrl = new FormControl();
   filteredTags: Observable<string[]>;
-  tags: string[] = ['Lemon'];
+  tags: string[] = ['Book'];
   allTags: string[];
-
-  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   constructor(private itemService: ItemService,
@@ -146,7 +144,6 @@ export class BookCreateComponent implements OnInit {
 
   selected(event: MatAutocompleteSelectedEvent): void {
     this.tags.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
     this.tagCtrl.setValue(null);
   }
 

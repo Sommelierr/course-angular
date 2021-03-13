@@ -1,14 +1,17 @@
 <div class="container">
-  <header class="jumbotron">
-  </header>
-  <h6>{{collection.name}}</h6>
+  <h2>{{collection.name}}</h2>
   <img src={{collection.image.url}} alt="err">
+  <div>
   <button *ngIf="isAuthorized()" class="c" (click)="deleteCollection()">
     Delete
   </button>
   <a href="/user/{{userId}}/{{collectionType}}/{{collectionId}}/edit" *ngIf="isAuthorized()" class="c">Edit</a>
   <a href="/user/{{userId}}/{{collectionType}}/b/{{collectionId}}/createBook" *ngIf="isAuthorized()" class="c">Create Book!</a>
-  <div><textarea>{{collection.description}}</textarea></div>
+</div>
+  <div>
+    <h3>Description</h3>
+    <textarea class="form-control">{{collection.description}}</textarea>
+  </div>
   <div>
     <table class="table table-dark">
       <tr>

@@ -54,7 +54,6 @@ export class BookEditComponent implements OnInit {
     private userService: UserService,
      private token: TokenStorageService,
      private router: Router,
-     private spinner: NgxSpinnerService,
      private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -134,7 +133,8 @@ export class BookEditComponent implements OnInit {
     this.book.tags = this.tags;
     console.log(this.book.hasFilm);
     this.itemService.updateBook(this.book, this.bookId).subscribe();
-    this.router.navigate(['/user/'+ `${this.userId}` + '/' + `${this.collectionType}`  +  '/b/' + `${this.collectionId}`]);
+    this.router.navigate(['/user/'+ `${this.userId}` + '/' + `${this.collectionType}`  +  '/b/' + `${this.collectionId}` +'/' +
+      `${this.bookId}`]);
   }
 
   defineValue(value : any) : any{

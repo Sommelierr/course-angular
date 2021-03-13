@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, SystemJsNgModuleLoader } from '@angular/core';
 import { CollectionService } from '../_services/collection.service';
 import { UserService } from '../_services/user.service';
 import { TokenStorageService } from '../_services/token-storage.service';
@@ -13,10 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CreateCollectionComponent implements OnInit {
 
-  @ViewChild('imagenInputFile', {static: false}) imageFile: ElementRef;
-
   image: File;
-  image1 : File;
   addedImage: File;
   form: any = {};
   isSuccessful = false;
@@ -36,23 +33,21 @@ export class CreateCollectionComponent implements OnInit {
   ngOnInit(): void {
     this.userId = this.route.snapshot.params["userId"];
     this.currentUser = this.token.getUser();
-    // this.collectionService.getCollectionCreaterForm(this.userId).subscribe(
-    //   data => { this.image1 = data;}
-    // );
     this.setUserStatus();
   }
 
   onFileChange(event) {
     this.image = event.target.files[0];
     const fr = new FileReader();
-    fr.onload = (evento: any) => {
-      this.addedImage = evento.target.result;
+    fr.onload = (event: any) => {
+      this.addedImage = event.target.result;
     };
     fr.readAsDataURL(this.image);
   }
 
   onUpload(): void {
     this.spinner.show();
+    if(this.image == undefined) this.image = null;
     this.collectionService.createCollection(this.form, this.image, this.userId).subscribe(
       data => {
         this.spinner.hide();
@@ -69,7 +64,6 @@ export class CreateCollectionComponent implements OnInit {
   reset(): void {
     this.image = null;
     this.addedImage = null;
-    this.imageFile.nativeElement.value = '';
   }
 
   isAuthorized() : boolean{

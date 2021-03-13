@@ -40,10 +40,9 @@ export class AlcoholCreateComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   tagCtrl = new FormControl();
   filteredTags: Observable<string[]>;
-  tags: string[] = ['Lemon'];
+  tags: string[] = ['Alcohol'];
   allTags: string[];
 
-  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   constructor(private itemService: ItemService,
@@ -157,7 +156,6 @@ export class AlcoholCreateComponent implements OnInit {
 
   selected(event: MatAutocompleteSelectedEvent): void {
     this.tags.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
     this.tagCtrl.setValue(null);
   }
 

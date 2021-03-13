@@ -53,16 +53,22 @@ export class AlcoholEditComponent implements OnInit {
     private collectionService: CollectionService,
      private token: TokenStorageService,
      private router: Router,
-     private spinner: NgxSpinnerService,
      private route: ActivatedRoute,
      private userService: UserService) { }
 
   ngOnInit(): void {
     this.setPathVariables();
     this.getAlcohol();
+    this.getAlcoholTags();
     this.getAllTags();
     this.getCollectionBitMask();
     this.getUserStatus();
+  }
+
+  getAlcoholTags(){
+    this.itemService.getItemTags(this.collectionType, this.alcoholId).subscribe(
+      data =>{this.tags = data;}
+    )
   }
 
   getCollectionBitMask(){
@@ -130,9 +136,9 @@ export class AlcoholEditComponent implements OnInit {
 
   onSubmit() : void{
     this.alcohol.tags = this.tags;
-    console.log(this.alcohol.hasFilm);
-    this.itemService.updateBook(this.alcohol, this.alcoholId).subscribe();
-    this.router.navigate(['/user/'+ `${this.userId}` + '/' + `${this.collectionType}`  +  '/b/' + `${this.collectionId}`]);
+    this.itemService.updateAlcohol(this.alcohol, this.alcoholId).subscribe();
+    this.router.navigate(['/user/'+ `${this.userId}` + '/' + `${this.collectionType}`  +  '/a/' + `${this.collectionId}`+'/' +
+    `${this.alcoholId}`]);
   }
 
   defineValue(value : any) : any{

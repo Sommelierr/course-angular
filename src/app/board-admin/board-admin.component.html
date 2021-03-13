@@ -1,6 +1,4 @@
 <div class="container">
-  <header class="jumbotron">
-  </header>
 </div>
 
 <h5>Users</h5>
@@ -17,11 +15,12 @@
         <td>blocked</td>
       </tr>  
       <tr *ngFor="let user of users;">
-        <input name="userId" type="checkbox" [(ngModel)]="user.checked">
+        
+        <td><input name="userId" type="checkbox" [(ngModel)]="user.checked"></td>
         <td>{{user.name}}</td>
         <td>{{user.id}}</td>
         <td>{{user.blocked}}</td>
-        <td>{{user.checked}}</td>
+        <td><a href="/user/{{user.id}}"></a>Details</td>
       </tr>
       <button class="c" (click)="block()">
         Block

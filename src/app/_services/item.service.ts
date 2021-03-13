@@ -2,18 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-//const API_URL = 'http://localhost:8080/api/';
-const API_URL = 'https://i-course.herokuapp.com/api/';
+const API_URL = 'http://localhost:8080/api/';
+//const API_URL = 'https://i-course.herokuapp.com/api/';
 @Injectable({
   providedIn: 'root'
 })
 export class ItemService {
 
     constructor(private http: HttpClient) { }
-
-    getBookCollectionBitMask(userId, collectionId, collectionType) : Observable<any> {
-        return this.http.get(API_URL + 'user/' + `${userId}` + '/' + `${collectionType}`  + '/' + `${collectionId}`+ "/b", { responseType : 'json'})
-      }
 
     getAllTags() : Observable<any> {
       return this.http.get(API_URL + 'tags', {responseType : 'json'}); 

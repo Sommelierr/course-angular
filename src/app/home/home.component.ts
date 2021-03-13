@@ -13,7 +13,8 @@ export class HomeComponent implements OnInit {
   content: string;
   homeData : any;
   tags : string[];
-  collection : any;
+  bookCollection : any;
+  alcoholCollection : any;
   alcohol : any;
   book : any;
   cloudTags: CloudData[];
@@ -22,9 +23,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(){
     this.findService.getHome().subscribe(
       data =>{
-        this.homeData = data;
         this.cloudTags = data.tags;
-        this.collection = data.collection;
+        this.bookCollection = data.bookCollection;
+        this.alcoholCollection = data.alcoholCollection;
         this.alcohol = data.alcohol;
         this.book = data.book;
       }
